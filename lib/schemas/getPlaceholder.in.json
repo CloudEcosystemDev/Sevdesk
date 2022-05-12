@@ -1,0 +1,28 @@
+{
+    "type": "object",
+    "properties": {
+        "objectName": {
+            "required": true,
+            "type": "string",
+            "enum": [
+                "Invoice",
+                "CreditNote",
+                "Order",
+                "Contact",
+                "Letter",
+                "Email"
+            ]
+        },
+        "subObjectName": {
+            "required": false,
+            "type": "string",
+            "enum": [
+                "Invoice",
+                "CreditNote",
+                "Order",
+                "Contact",
+                "Letter"
+            ]
+        }
+    }
+}

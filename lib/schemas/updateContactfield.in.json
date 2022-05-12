@@ -1,0 +1,63 @@
+{
+    "type": "object",
+    "properties": {
+        "contactCustomFieldId": {
+            "required": true,
+            "type": "number"
+        },
+        "requestBody": {
+            "title": "contact fields model",
+            "description": "contact fields model",
+            "properties": {
+                "contact": {
+                    "description": "name of the contact",
+                    "type": "object",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of contact",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'Contact'",
+                            "type": "string",
+                            "example": "Contact"
+                        }
+                    }
+                },
+                "contactCustomFieldSetting": {
+                    "description": "name of the contact custom field setting",
+                    "type": "object",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of contact custom field setting",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'contactCustomFieldSetting'",
+                            "type": "string",
+                            "example": "contactCustomFieldSetting"
+                        }
+                    }
+                },
+                "value": {
+                    "description": "The value of the contact field",
+                    "type": "string"
+                },
+                "objectName": {
+                    "description": "Internal object name which is 'ContactCustomField'.",
+                    "type": "string",
+                    "default": "ContactCustomField"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

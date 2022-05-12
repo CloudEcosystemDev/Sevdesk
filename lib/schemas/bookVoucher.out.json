@@ -1,0 +1,12 @@
+{
+    "properties": {
+        "objects": {
+            "description": "TODO: Document VoucherLog and enter scheme here",
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}

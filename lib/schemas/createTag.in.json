@@ -1,0 +1,42 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "required": [
+                "invoice"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of the tag",
+                    "type": "string"
+                },
+                "object": {
+                    "description": "Invoice for the reminder",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Id of the invoice/order/voucher/creditNote",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name",
+                            "type": "string",
+                            "example": "Invoice",
+                            "enum": [
+                                "Invoice",
+                                "Voucher",
+                                "Order",
+                                "CreditNote"
+                            ]
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

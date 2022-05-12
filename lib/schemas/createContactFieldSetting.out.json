@@ -1,0 +1,73 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "title": "contact fields model",
+                "description": "contact fields model",
+                "properties": {
+                    "id": {
+                        "description": "Id of the contact field",
+                        "type": "string",
+                        "example": "1",
+                        "readOnly": true
+                    },
+                    "objectName": {
+                        "description": "Internal object name which is 'ContactCustomFieldSetting'.",
+                        "type": "string",
+                        "default": "ContactCustomFieldSetting",
+                        "readOnly": true
+                    },
+                    "create": {
+                        "description": "Date of contact field creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "update": {
+                        "description": "Date of contact field updated",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "sevClient": {
+                        "description": "Client to which invoice belongs. Will be filled automatically",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the client",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevClient'",
+                                "type": "string",
+                                "default": "SevClient"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "description": "name of the contact fields",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "identifier": {
+                        "description": "Unique identifier for the contact field",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "description": {
+                        "description": "The description of the contact field",
+                        "type": "string",
+                        "readOnly": true
+                    }
+                }
+            }
+        }
+    }
+}

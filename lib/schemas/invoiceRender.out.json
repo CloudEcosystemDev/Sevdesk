@@ -1,0 +1,25 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "docId": {
+                        "description": "ID of the (temporary) document.",
+                        "type": "string"
+                    },
+                    "pdfUrl": {
+                        "description": "The url location of the (temporary) document.",
+                        "type": "string"
+                    },
+                    "pages": {
+                        "description": "The amount of pages of the document.",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}

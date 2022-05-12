@@ -1,0 +1,47 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "title": "AccountingContact model",
+            "description": "Accounting contact model",
+            "required": [
+                "contact"
+            ],
+            "properties": {
+                "contact": {
+                    "description": "The contact to which this accounting contact belongs.",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the contact",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'Contact'",
+                            "type": "string",
+                            "default": "Contact"
+                        }
+                    },
+                    "type": "object",
+                    "nullable": false
+                },
+                "debitorNumber": {
+                    "description": "Debitor number of the accounting contact.",
+                    "type": "integer",
+                    "default": null,
+                    "nullable": true
+                },
+                "creditorNumber": {
+                    "description": "Creditor number of the accounting contact.",
+                    "type": "integer",
+                    "default": null,
+                    "nullable": true
+                }
+            },
+            "type": "object"
+        }
+    }
+}

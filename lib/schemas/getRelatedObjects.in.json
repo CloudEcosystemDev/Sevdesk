@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties": {
+        "orderId": {
+            "required": true,
+            "type": "integer"
+        },
+        "includeItself": {
+            "required": false,
+            "type": "boolean"
+        },
+        "sortByType": {
+            "required": false,
+            "type": "boolean"
+        },
+        "embed": {
+            "required": false,
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

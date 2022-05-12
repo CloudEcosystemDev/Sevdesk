@@ -1,0 +1,345 @@
+{
+    "type": "object",
+    "properties": {
+        "creditNoteId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "title": "creditNote model",
+            "description": "creditNote model",
+            "properties": {
+                "id": {
+                    "description": "The creditNote id",
+                    "type": "integer",
+                    "readOnly": true,
+                    "nullable": false
+                },
+                "objectName": {
+                    "description": "The creditNote object name",
+                    "type": "string",
+                    "readOnly": true,
+                    "nullable": false
+                },
+                "create": {
+                    "description": "Date of creditNote creation",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true,
+                    "example": "01.01.2020"
+                },
+                "update": {
+                    "description": "Date of last creditNote update",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true,
+                    "example": "01.01.2020"
+                },
+                "creditNoteNumber": {
+                    "description": "The creditNote number",
+                    "type": "string",
+                    "example": "Offer-1000",
+                    "nullable": true
+                },
+                "contact": {
+                    "description": "The contact used in the creditNote",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the contact",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'Contact'",
+                            "type": "string",
+                            "default": "Contact"
+                        }
+                    },
+                    "type": "object",
+                    "nullable": true
+                },
+                "creditNoteDate": {
+                    "description": "Needs to be provided as timestamp or dd.mm.yyyy",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "01.01.2020",
+                    "nullable": true
+                },
+                "status": {
+                    "description": "Please have a look in \r\n    <a href='https://api.sevdesk.de/#section/Types-and-status-of-credit-notes'>status of credit note</a>\r\n    to see what the different status codes mean",
+                    "type": "string",
+                    "enum": [
+                        "100",
+                        "200",
+                        "1000"
+                    ],
+                    "example": "100",
+                    "nullable": false
+                },
+                "header": {
+                    "description": "Normally consist of prefix plus the creditNote number",
+                    "type": "string",
+                    "example": "My Offer-1000",
+                    "nullable": true
+                },
+                "headText": {
+                    "description": "Certain html tags can be used here to format your text",
+                    "type": "string",
+                    "nullable": true
+                },
+                "footText": {
+                    "description": "Certain html tags can be used here to format your text",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addressCountry": {
+                    "description": "Can be omitted as complete address is defined in address attribute",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the country",
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'StaticCountry'",
+                            "type": "string",
+                            "default": "StaticCountry"
+                        }
+                    },
+                    "type": "object",
+                    "nullable": true
+                },
+                "createUser": {
+                    "description": "Will be filled automatically by our system and can't be changed",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the user",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'SevUser'",
+                            "type": "string",
+                            "default": "SevUser"
+                        }
+                    },
+                    "type": "object",
+                    "readOnly": true
+                },
+                "sevClient": {
+                    "description": "Client to which creditNote belongs. Will be filled automatically",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the client",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'SevClient'",
+                            "type": "string",
+                            "default": "SevClient"
+                        }
+                    },
+                    "type": "object",
+                    "readOnly": true
+                },
+                "deliveryTerms": {
+                    "description": "Delivery terms of the creditNote",
+                    "type": "string",
+                    "nullable": true
+                },
+                "deliveryDate": {
+                    "description": "Timestamp. This can also be a date range if you also use the attribute deliveryDateUntil",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "01.01.2020",
+                    "nullable": false
+                },
+                "paymentTerms": {
+                    "description": "Payment terms of the creditNote",
+                    "type": "string",
+                    "nullable": true
+                },
+                "version": {
+                    "description": "Version of the creditNote.<br>\r\n    Can be used if you have multiple drafts for the same creditNote.<br>\r\n    Should start with 0",
+                    "type": "integer",
+                    "example": 0,
+                    "nullable": true
+                },
+                "smallSettlement": {
+                    "description": "Defines if the client uses the small settlement scheme.\r\n    If yes, the creditNote must not contain any vat",
+                    "type": "boolean",
+                    "example": 0,
+                    "nullable": true
+                },
+                "contactPerson": {
+                    "description": "The user who acts as a contact person for the creditNote",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the user",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'SevUser'",
+                            "type": "string",
+                            "default": "SevUser"
+                        }
+                    },
+                    "type": "object",
+                    "nullable": true
+                },
+                "taxRate": {
+                    "description": "Is overwritten by creditNote position tax rates",
+                    "type": "number",
+                    "format": "float",
+                    "example": 19,
+                    "nullable": true
+                },
+                "taxSet": {
+                    "description": "Tax set of the creditNote. Needs to be added if you chose the tax type custom",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the object",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'TaxSet'",
+                            "type": "string",
+                            "default": "TaxSet"
+                        }
+                    },
+                    "type": "object",
+                    "nullable": true
+                },
+                "taxText": {
+                    "description": "A common tax text would be 'Umsatzsteuer 19%'",
+                    "type": "string",
+                    "example": "Umsatzsteuer 19%",
+                    "nullable": true
+                },
+                "taxType": {
+                    "description": "Tax type of the creditNote.\nThere are four tax types:\n1. default - Umsatzsteuer ausweisen\n2. eu - Steuerfreie innergemeinschaftliche Lieferung (Europäische Union)\n3. noteu - Steuerschuldnerschaft des Leistungsempfängers (außerhalb EU, z. B. Schweiz)\n4. custom - Using custom tax set\nTax rates are heavily connected to the tax type used.",
+                    "type": "string",
+                    "example": "default",
+                    "nullable": true
+                },
+                "creditNoteType": {
+                    "description": "Type of the creditNote. For more information on the different types, check\r\n    <a href='https://api.sevdesk.de/#section/Types-and-status-of-credit-notes'>this</a>\r\n",
+                    "type": "string",
+                    "default": "CN",
+                    "nullable": true
+                },
+                "sendDate": {
+                    "description": "The date the creditNote was sent to the customer",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "01.01.2020",
+                    "nullable": true
+                },
+                "address": {
+                    "description": "Complete address of the recipient including name, street, city, zip and country.<br>\r\n     Line breaks can be used and will be displayed on the invoice pdf.",
+                    "type": "string",
+                    "nullable": true
+                },
+                "currency": {
+                    "description": "Currency used in the creditNote. Needs to be currency code according to ISO-4217",
+                    "type": "string",
+                    "example": "EUR",
+                    "nullable": true
+                },
+                "sumNet": {
+                    "description": "Net sum of the creditNote",
+                    "type": "number",
+                    "format": "float",
+                    "readOnly": true
+                },
+                "sumTax": {
+                    "description": "Tax sum of the creditNote",
+                    "type": "number",
+                    "format": "float",
+                    "readOnly": true
+                },
+                "sumGross": {
+                    "description": "Gross sum of the creditNote",
+                    "type": "number",
+                    "format": "float",
+                    "readOnly": true
+                },
+                "sumDiscounts": {
+                    "description": "Sum of all discounts in the creditNote",
+                    "type": "number",
+                    "format": "float",
+                    "readOnly": true
+                },
+                "sumNetForeignCurrency": {
+                    "description": "Net sum of the creditNote in the foreign currency",
+                    "type": "number",
+                    "format": "float",
+                    "readOnly": true
+                },
+                "sumTaxForeignCurrency": {
+                    "description": "Tax sum of the creditNote in the foreign currency",
+                    "type": "number",
+                    "format": "float",
+                    "readOnly": true
+                },
+                "sumGrossForeignCurrency": {
+                    "description": "Gross sum of the creditNote in the foreign currency",
+                    "type": "number",
+                    "format": "float",
+                    "readOnly": true
+                },
+                "sumDiscountsForeignCurrency": {
+                    "description": "Discounts sum of the creditNote in the foreign currency",
+                    "type": "number",
+                    "format": "float",
+                    "readOnly": true
+                },
+                "customerInternalNote": {
+                    "description": "Internal note of the customer. Contains data entered into field 'Referenz/Bestellnummer'",
+                    "type": "string",
+                    "nullable": true
+                },
+                "showNet": {
+                    "description": "If true, the net amount of each position will be shown on the creditNote. Otherwise gross amount",
+                    "type": "boolean",
+                    "default": 1
+                },
+                "sendType": {
+                    "description": "Type which was used to send the creditNote. IMPORTANT: Please refer to the creditNote section of the\r\n     *     API-Overview to understand how this attribute can be used before using it!",
+                    "type": "string",
+                    "default": null,
+                    "enum": [
+                        "VPR",
+                        "VPDF",
+                        "VM",
+                        "VP"
+                    ],
+                    "nullable": true
+                }
+            },
+            "type": "object"
+        }
+    }
+}

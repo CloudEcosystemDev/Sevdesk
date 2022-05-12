@@ -1,0 +1,56 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "title": "Tag model",
+                "description": "tag model",
+                "properties": {
+                    "id": {
+                        "description": "Id of the tag",
+                        "type": "string",
+                        "example": "1",
+                        "readOnly": true
+                    },
+                    "objectName": {
+                        "description": "Internal object name which is 'Tag'.",
+                        "type": "string",
+                        "example": "Tag",
+                        "readOnly": true
+                    },
+                    "create": {
+                        "description": "Date of tag creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "description": "name of the tag",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "sevClient": {
+                        "description": "Client to which invoice belongs. Will be filled automatically",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the client",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevClient'",
+                                "type": "string",
+                                "default": "SevClient"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    }
+}

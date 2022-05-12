@@ -1,0 +1,12 @@
+{
+    "properties": {
+        "objects": {
+            "description": "TODO: Document InvoiceLog and enter scheme here",
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}

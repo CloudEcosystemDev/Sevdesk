@@ -1,0 +1,29 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "title": "contact field settings model",
+            "description": "contact field settings model",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "name of the contact fields",
+                    "type": "string",
+                    "nullable": false
+                },
+                "description": {
+                    "description": "The description of the contact field",
+                    "type": "string"
+                },
+                "objectName": {
+                    "description": "Internal object name which is 'ContactCustomFieldSetting'.",
+                    "type": "string",
+                    "default": "ContactCustomFieldSetting"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties": {
+        "orderId": {
+            "required": true,
+            "type": "integer"
+        },
+        "limit": {
+            "required": false,
+            "type": "integer"
+        },
+        "offset": {
+            "required": false,
+            "type": "integer"
+        },
+        "embed": {
+            "required": false,
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

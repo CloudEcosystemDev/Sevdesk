@@ -1,0 +1,93 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "title": "AccountingContact model",
+                "description": "Accounting contact model",
+                "properties": {
+                    "id": {
+                        "description": "The accounting contact id",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "objectName": {
+                        "description": "The accounting contact object name",
+                        "type": "string",
+                        "readOnly": true,
+                        "example": "AccountingContact"
+                    },
+                    "create": {
+                        "description": "Date of accounting contact creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "update": {
+                        "description": "Date of last accounting contact update",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "contact": {
+                        "description": "The contact to which this accounting contact belongs.",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the contact",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Contact'",
+                                "type": "string",
+                                "default": "Contact"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "sevClient": {
+                        "description": "Client to which accounting contact belongs. Will be filled automatically",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the client",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevClient'",
+                                "type": "string",
+                                "example": "SevClient"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "debitorNumber": {
+                        "description": "Debitor number of the accounting contact.",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "creditorNumber": {
+                        "description": "Creditor number of the accounting contact.",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}

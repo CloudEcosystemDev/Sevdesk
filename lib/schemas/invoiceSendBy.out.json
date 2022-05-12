@@ -1,0 +1,526 @@
+{
+    "properties": {
+        "objects": {
+            "description": "The invoice object which was marked as sent.",
+            "type": "array",
+            "items": {
+                "title": "Invoice model",
+                "description": "Invoice model",
+                "properties": {
+                    "id": {
+                        "description": "The invoice id",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "objectName": {
+                        "description": "The invoice object name",
+                        "type": "string",
+                        "example": "Invoice",
+                        "readOnly": true
+                    },
+                    "invoiceNumber": {
+                        "description": "The invoice number",
+                        "type": "string",
+                        "example": "RE-1000",
+                        "readOnly": true
+                    },
+                    "contact": {
+                        "description": "The contact used in the invoice",
+                        "readOnly": true,
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the contact",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Contact'",
+                                "type": "string",
+                                "default": "Contact"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "create": {
+                        "description": "Date of invoice creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "update": {
+                        "description": "Date of last invoice update",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "sevClient": {
+                        "description": "Client to which invoice belongs. Will be filled automatically",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the client",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevClient'",
+                                "type": "string",
+                                "default": "SevClient"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "invoiceDate": {
+                        "description": "Needs to be provided as timestamp or dd.mm.yyyy",
+                        "type": "string",
+                        "example": "01.01.20",
+                        "readOnly": true
+                    },
+                    "header": {
+                        "description": "Normally consist of prefix plus the invoice number",
+                        "type": "string",
+                        "example": "My RE-1000",
+                        "readOnly": true
+                    },
+                    "headText": {
+                        "description": "Certain html tags can be used here to format your text",
+                        "type": "string",
+                        "example": "header information",
+                        "readOnly": true
+                    },
+                    "footText": {
+                        "description": "Certain html tags can be used here to format your text",
+                        "type": "string",
+                        "example": "footer information",
+                        "readOnly": true
+                    },
+                    "timeToPay": {
+                        "description": "The time the customer has to pay the invoice in days",
+                        "type": "string",
+                        "example": "10",
+                        "readOnly": true
+                    },
+                    "discountTime": {
+                        "description": "If a value other than zero is used for the discount attribute,\r\n    you need to specify the amount of days for which the discount is granted.",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "discount": {
+                        "description": "If you want to give a discount, define the percentage here. Otherwise provide zero as value",
+                        "type": "string",
+                        "default": "0",
+                        "readOnly": true
+                    },
+                    "addressCountry": {
+                        "description": "Can be omitted as complete address is defined in address attribute",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the country",
+                                "type": "string",
+                                "example": "1"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'StaticCountry'",
+                                "type": "string",
+                                "example": "StaticCountry"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "payDate": {
+                        "description": "Needs to be timestamp or dd.mm.yyyy",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.2020",
+                        "readOnly": true
+                    },
+                    "createUser": {
+                        "description": "Will be filled automatically by our system and can't be changed",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the user",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevUser'",
+                                "type": "string",
+                                "default": "SevUser"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "deliveryDate": {
+                        "description": "Timestamp. This can also be a date range if you also use the attribute deliveryDateUntil",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.20",
+                        "readOnly": true
+                    },
+                    "status": {
+                        "description": "Please have a look in our\r\n     <a href='https://api.sevdesk.de/#section/Types-and-status-of-invoices'>Types and status of invoices</a>\r\n     to see what the different status codes mean",
+                        "type": "string",
+                        "enum": [
+                            "50",
+                            "100",
+                            "200",
+                            "1000"
+                        ],
+                        "example": "100",
+                        "readOnly": true
+                    },
+                    "smallSettlement": {
+                        "description": "Defines if the client uses the small settlement scheme.\r\n    If yes, the invoice must not contain any vat",
+                        "type": "boolean",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "contactPerson": {
+                        "description": "The user who acts as a contact person for the invoice",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the user",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevUser'",
+                                "type": "string",
+                                "default": "SevUser"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "taxRate": {
+                        "description": "Is overwritten by invoice position tax rates",
+                        "type": "string",
+                        "example": "19",
+                        "readOnly": true
+                    },
+                    "taxText": {
+                        "description": "A common tax text would be 'Umsatzsteuer 19%'",
+                        "type": "string",
+                        "example": "Umsatzsteuer 19%",
+                        "readOnly": true
+                    },
+                    "dunningLevel": {
+                        "description": "Defines how many reminders have already been sent for the invoice.\r\n    Starts with 1 (Payment reminder) and should be incremented by one every time another reminder is sent.",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "taxType": {
+                        "description": "Tax type of the invoice.\nThere are four tax types:\n1. default - Umsatzsteuer ausweisen\n2. eu - Steuerfreie innergemeinschaftliche Lieferung (Europäische Union)\n3. noteu - Steuerschuldnerschaft des Leistungsempfängers (außerhalb EU, z. B. Schweiz)\n4. custom - Using custom tax set\nTax rates are heavily connected to the tax type used.",
+                        "type": "string",
+                        "default": "default",
+                        "enum": [
+                            "default",
+                            "eu",
+                            "noteu",
+                            "custom"
+                        ],
+                        "readOnly": true
+                    },
+                    "paymentMethod": {
+                        "description": "Payment method used for the invoice",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the payment method",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'PaymentMethod'",
+                                "type": "string",
+                                "default": "PaymentMethod"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "costCentre": {
+                        "description": "Cost centre for the invoice",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the cost centre",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'CostCentre'",
+                                "type": "string",
+                                "default": "CostCentre"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "sendDate": {
+                        "description": "The date the invoice was sent to the customer",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.2020",
+                        "readOnly": true
+                    },
+                    "origin": {
+                        "description": "Origin of the invoice. Could f.e. be an order",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the object",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name. Could f.e. be 'Order''",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "invoiceType": {
+                        "description": "Type of the invoice. For more information on the different types, check\r\n     <a href='https://api.sevdesk.de/#section/Types-and-status-of-invoices'>this</a> section\r\n",
+                        "type": "string",
+                        "default": "RE",
+                        "enum": [
+                            "RE",
+                            "WKR",
+                            "SR",
+                            "MA",
+                            "TR",
+                            "ER"
+                        ],
+                        "readOnly": true
+                    },
+                    "accountIntervall": {
+                        "description": "The interval in which recurring invoices are due as ISO-8601 duration.<br>\r\n     Necessary attribute for all recurring invoices.",
+                        "type": "string",
+                        "example": "2022-03-14",
+                        "readOnly": true
+                    },
+                    "accountNextInvoice": {
+                        "description": "Timestamp when the next invoice will be generated by this recurring invoice.",
+                        "type": "string",
+                        "example": "1647259198",
+                        "readOnly": true
+                    },
+                    "reminderTotal": {
+                        "description": "Total reminder amount",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "reminderDebit": {
+                        "description": "Debit of the reminder",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "reminderDeadline": {
+                        "description": "Deadline of the reminder as timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.2020",
+                        "readOnly": true
+                    },
+                    "reminderCharge": {
+                        "description": "The additional reminder charge",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "taxSet": {
+                        "description": "Tax set of the invoice. Needs to be added if you chose the tax type custom",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the object",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'TaxSet'",
+                                "type": "string",
+                                "example": "TaxSet"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "address": {
+                        "description": "Complete address of the recipient including name, street, city, zip and country.\r\n     * Line breaks can be used and will be displayed on the invoice pdf.",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "currency": {
+                        "description": "Currency used in the invoice. Needs to be currency code according to ISO-4217",
+                        "type": "string",
+                        "default": "EUR",
+                        "readOnly": true
+                    },
+                    "sumNet": {
+                        "description": "Net sum of the invoice",
+                        "type": "string",
+                        "example": "100",
+                        "readOnly": true
+                    },
+                    "sumTax": {
+                        "description": "Tax sum of the invoice",
+                        "type": "string",
+                        "example": "19",
+                        "readOnly": true
+                    },
+                    "sumGross": {
+                        "description": "Gross sum of the invoice",
+                        "type": "string",
+                        "example": "119",
+                        "readOnly": true
+                    },
+                    "sumDiscounts": {
+                        "description": "Sum of all discounts in the invoice",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumNetForeignCurrency": {
+                        "description": "Net sum of the invoice in the foreign currency",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumTaxForeignCurrency": {
+                        "description": "Tax sum of the invoice in the foreign currency",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumGrossForeignCurrency": {
+                        "description": "Gross sum of the invoice in the foreign currency",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumDiscountsForeignCurrency": {
+                        "description": "Discounts sum of the invoice in the foreign currency",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumNetAccounting": {
+                        "description": "Net accounting sum of the invoice. Is usually the same as sumNet",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumTaxAccounting": {
+                        "description": "Tax accounting sum of the invoice. Is usually the same as sumTax",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumGrossAccounting": {
+                        "description": "Gross accounting sum of the invoice. Is usually the same as sumGross",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "paidAmount": {
+                        "description": "Amount which has already been paid for this invoice by the customer",
+                        "type": "number",
+                        "format": "float",
+                        "example": 0,
+                        "readOnly": true
+                    },
+                    "customerInternalNote": {
+                        "description": "Internal note of the customer. Contains data entered into field 'Referenz/Bestellnummer'",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "showNet": {
+                        "description": "If true, the net amount of each position will be shown on the invoice. Otherwise gross amount",
+                        "type": "boolean",
+                        "default": "1",
+                        "readOnly": true
+                    },
+                    "enshrined": {
+                        "description": "Defines if and when invoice was enshrined. Enshrined invoices can not be manipulated.",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.2020",
+                        "readOnly": true
+                    },
+                    "sendType": {
+                        "description": "Type which was used to send the invoice. IMPORTANT: Please refer to the invoice section of the\r\n     *     API-Overview to understand how this attribute can be used before using it!",
+                        "type": "string",
+                        "enum": [
+                            "VPR",
+                            "VPDF",
+                            "VM",
+                            "VP"
+                        ],
+                        "readOnly": true
+                    },
+                    "deliveryDateUntil": {
+                        "description": "If the delivery date should be a time range, another timestamp can be provided in this attribute\r\n     * to define a range from timestamp used in deliveryDate attribute to the timestamp used here.",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "datevConnectOnline": {
+                        "description": "Internal attribute",
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "sendPaymentReceivedNotificationDate": {
+                        "description": "Internal attribute",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}

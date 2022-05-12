@@ -1,0 +1,125 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "title": "CommunicationWay model",
+                "description": "Contact communication way model",
+                "properties": {
+                    "id": {
+                        "description": "The communication way id",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "objectName": {
+                        "description": "The communication way object name",
+                        "type": "string",
+                        "example": "CommunicationWay",
+                        "readOnly": true
+                    },
+                    "create": {
+                        "description": "Date of communication way creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "update": {
+                        "description": "Date of last communication way update",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "contact": {
+                        "description": "The contact to which this communication way belongs.",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the contact",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Contact'",
+                                "type": "string",
+                                "default": "Contact"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "type": {
+                        "description": "Type of the communication way",
+                        "type": "string",
+                        "enum": [
+                            "EMAIL",
+                            "PHONE",
+                            "WEB",
+                            "MOBILE"
+                        ],
+                        "example": "EMAIL",
+                        "readOnly": true
+                    },
+                    "value": {
+                        "description": "The value of the communication way.<br>\r\n     For example the phone number, e-mail address or website.",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "key": {
+                        "description": "The key of the communication way.<br>\nSimilar to the category of addresses.<br>\nFor all communication way keys please send a GET to /CommunicationWayKey.",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the key",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'CommunicationWayKey'",
+                                "type": "string",
+                                "example": "CommunicationWayKey"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "main": {
+                        "description": "Defines whether the communication way is the main communication way for the contact.",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sevClient": {
+                        "description": "Client to which communication way key belongs. Will be filled automatically",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the client",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevClient'",
+                                "type": "string",
+                                "example": "SevClient"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}

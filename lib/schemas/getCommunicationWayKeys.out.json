@@ -1,0 +1,43 @@
+{
+    "properties": {
+        "id": {
+            "description": "The id of the communication way key\n1. ID: 1 - Privat\n2. ID: 2 - Arbeit\n3. ID: 3 - Fax\n4. ID: 4 - Mobil\n5. ID: 5 - \" \"\n6. ID: 6 - Autobox\n7. ID: 7 - Newsletter\n8. ID: 8 - Rechnungsadresse",
+            "type": "string",
+            "example": "2"
+        },
+        "objectName": {
+            "description": "object name which is 'CommunicationWayKey'.",
+            "type": "string",
+            "example": "CommunicationWayKey"
+        },
+        "create": {
+            "description": "Date the communication way key was created",
+            "type": "string",
+            "format": "date-time"
+        },
+        "upadate": {
+            "description": "Date the communication way key was last updated",
+            "type": "string",
+            "format": "date-time"
+        },
+        "name": {
+            "description": "Name of the communication way key",
+            "type": "string",
+            "example": "Arbeit",
+            "enum": [
+                "Arbeit",
+                "Autobox",
+                "Fax",
+                "Mobil",
+                "Newsletter",
+                "Privat",
+                "Rechnungsadresse",
+                " "
+            ]
+        },
+        "translationCode": {
+            "type": "string",
+            "example": "COMM_WAY_KEY_WORK"
+        }
+    }
+}

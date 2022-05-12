@@ -1,0 +1,72 @@
+{
+    "type": "object",
+    "properties": {
+        "download": {
+            "type": "boolean"
+        },
+        "sevQuery": {
+            "required": [
+                "modelName",
+                "objectName"
+            ],
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "description": "Limit export",
+                    "example": 999999
+                },
+                "modelName": {
+                    "description": "Model name which is exported",
+                    "example": "Invoice"
+                },
+                "objectName": {
+                    "description": "SevQuery object name",
+                    "example": "SevQuery"
+                },
+                "filter": {
+                    "type": "object",
+                    "properties": {
+                        "zip": {
+                            "description": "filters the contacts by zip code",
+                            "type": "integer",
+                            "example": 77656
+                        },
+                        "city": {
+                            "description": "filters the contacts by city",
+                            "type": "string",
+                            "example": "Offenburg"
+                        },
+                        "country": {
+                            "type": "object",
+                            "required": [
+                                "id",
+                                "objectName"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "id of the country",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "objectName": {
+                                    "description": "Model name, which is 'StaticCountry'",
+                                    "type": "string",
+                                    "example": "StaticCountry"
+                                }
+                            }
+                        },
+                        "depth": {
+                            "description": "export only organisations",
+                            "type": "boolean"
+                        },
+                        "onlyPeople": {
+                            "description": "export only people",
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

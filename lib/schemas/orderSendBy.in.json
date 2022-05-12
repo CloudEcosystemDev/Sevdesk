@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "properties": {
+        "orderId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "required": [
+                "sendType",
+                "sendDraft"
+            ],
+            "properties": {
+                "sendType": {
+                    "description": "Specifies the way in which the order was sent to the customer.<br>\r\n     Accepts 'VPR' (print), 'VP' (postal), 'VM' (mail) and 'VPDF' (downloaded pfd).",
+                    "type": "string",
+                    "enum": [
+                        "VPR",
+                        "VP",
+                        "VM",
+                        "VPDF"
+                    ]
+                },
+                "sendDraft": {
+                    "description": "Specify if the should be enshrined after marking it as sent.",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

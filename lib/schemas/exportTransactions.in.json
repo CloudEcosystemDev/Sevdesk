@@ -1,0 +1,81 @@
+{
+    "type": "object",
+    "properties": {
+        "download": {
+            "type": "boolean"
+        },
+        "sevQuery": {
+            "required": [
+                "modelName",
+                "objectName"
+            ],
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "description": "Limit export",
+                    "example": 999999
+                },
+                "modelName": {
+                    "description": "Model name, which is 'CheckAccountTransaction'"
+                },
+                "objectName": {
+                    "description": "Model name, which is 'SevQuery'",
+                    "example": "SevQuery"
+                },
+                "filter": {
+                    "type": "object",
+                    "properties": {
+                        "paymtPurpose": {
+                            "description": "the payment purpose",
+                            "type": "string",
+                            "example": "salary"
+                        },
+                        "name": {
+                            "description": "the name of the payee/payer",
+                            "type": "string",
+                            "example": "Cercei Lannister"
+                        },
+                        "startDate": {
+                            "description": "Start date of the transactions",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "endDate": {
+                            "description": "End date of the transactions",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "startAmount": {
+                            "description": "filters the transactions by amount",
+                            "type": "integer",
+                            "example": 100
+                        },
+                        "endAmount": {
+                            "description": "filters the transactions by amount",
+                            "type": "integer",
+                            "example": 150
+                        },
+                        "checkAccount": {
+                            "type": "object",
+                            "required": [
+                                "id",
+                                "objectName"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "Id of the checkAccount",
+                                    "type": "integer"
+                                },
+                                "objectName": {
+                                    "description": "Model name, which is 'CheckAccount'",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

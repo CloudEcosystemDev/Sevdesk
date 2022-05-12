@@ -1,0 +1,37 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "title": "Layout model",
+                "description": "Layout model",
+                "properties": {
+                    "result": {
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "metadaten": {
+                        "type": "object",
+                        "properties": {
+                            "thumbs": {
+                                "description": "the pdf file",
+                                "type": "array"
+                            },
+                            "pages": {
+                                "description": "the number of pages in the document",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "docId": {
+                                "description": "the id of the document",
+                                "type": "string",
+                                "readOnly": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "type": "object"
+}

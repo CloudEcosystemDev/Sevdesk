@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "contactCustomFieldId": {
+            "required": true,
+            "type": "number"
+        }
+    }
+}

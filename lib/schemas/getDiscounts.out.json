@@ -1,0 +1,87 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "title": "Discounts",
+                "description": "Discount model",
+                "properties": {
+                    "id": {
+                        "description": "the id of the discount",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "objectName": {
+                        "description": "Model name, which is 'Discounts'",
+                        "type": "string",
+                        "example": "Discounts",
+                        "readOnly": true
+                    },
+                    "create": {
+                        "description": "Date of discount creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.2020",
+                        "readOnly": true
+                    },
+                    "update": {
+                        "description": "Date of last discount update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.2020",
+                        "readOnly": true
+                    },
+                    "object": {
+                        "description": "The order used for the discount",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the order",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Order'",
+                                "type": "string",
+                                "default": "Order"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "sevClient": {
+                        "description": "Client to which invoice belongs. Will be filled automatically",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "text": {
+                        "description": "A text describing your position.",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "percentage": {
+                        "description": "Defines if this is a percentage or an absolute discount",
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "value": {
+                        "description": "Value of the discount",
+                        "type": "string",
+                        "example": "10"
+                    },
+                    "isNet": {
+                        "description": "Defines is the Discount net or gross\n0 - gross\n1 - net",
+                        "type": "string",
+                        "example": "1"
+                    }
+                }
+            }
+        }
+    },
+    "type": "object"
+}

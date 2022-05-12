@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "voucher[id]": {
+            "required": false,
+            "type": "integer"
+        },
+        "voucher[objectName]": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

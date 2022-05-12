@@ -1,0 +1,25 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": false,
+            "type": "number"
+        },
+        "invoice[id]": {
+            "required": false,
+            "type": "number"
+        },
+        "invoice[objectName]": {
+            "required": false,
+            "type": "string"
+        },
+        "part[id]": {
+            "required": false,
+            "type": "number"
+        },
+        "part[objectName]": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "accountingContactId": {
+            "required": true,
+            "type": "integer"
+        }
+    }
+}

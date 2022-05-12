@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "checkAccountId": {
+            "required": true,
+            "type": "integer"
+        }
+    }
+}

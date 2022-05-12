@@ -1,0 +1,47 @@
+{
+    "type": "object",
+    "properties": {
+        "creditNoteId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "required": [
+                "toEmail",
+                "subject",
+                "text"
+            ],
+            "properties": {
+                "toEmail": {
+                    "description": "The recipient of the email.",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "The subject of the email.",
+                    "type": "string"
+                },
+                "text": {
+                    "description": "The text of the email. Can contain html.",
+                    "type": "string"
+                },
+                "copy": {
+                    "description": "Should a copy of this email be sent to you?",
+                    "type": "boolean"
+                },
+                "additionalAttachments": {
+                    "description": "Additional attachments to the mail. String of IDs of existing documents in your\r\n     *                      sevdesk account separated by ','",
+                    "type": "string"
+                },
+                "ccEmail": {
+                    "description": "String of mail addresses to be put as cc separated by ','",
+                    "type": "string"
+                },
+                "bccEmail": {
+                    "description": "String of mail addresses to be put as bcc separated by ','",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

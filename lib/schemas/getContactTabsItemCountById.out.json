@@ -1,0 +1,33 @@
+{
+    "properties": {
+        "orders": {
+            "type": "number"
+        },
+        "invoices": {
+            "type": "number"
+        },
+        "creditNotes": {
+            "type": "number"
+        },
+        "documents": {
+            "type": "number"
+        },
+        "persons": {
+            "type": "number"
+        },
+        "vouchers": {
+            "type": "number"
+        },
+        "letters": {
+            "type": "number"
+        },
+        "parts": {
+            "type": "string",
+            "example": "0"
+        },
+        "invoicePos": {
+            "type": "number"
+        }
+    },
+    "type": "object"
+}

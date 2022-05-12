@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "order[id]": {
+            "required": false,
+            "type": "integer"
+        },
+        "order[objectName]": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

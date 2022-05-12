@@ -1,0 +1,199 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "title": "creditNote position model",
+                "description": "creditNote position model",
+                "required": [
+                    "creditNote",
+                    "unity",
+                    "taxRate",
+                    "quantity"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The creditNote position id",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true,
+                        "nullable": false
+                    },
+                    "objectName": {
+                        "description": "The creditNote position object name",
+                        "type": "string",
+                        "readOnly": true,
+                        "nullable": false
+                    },
+                    "create": {
+                        "description": "Date of creditNote position creation",
+                        "type": "string",
+                        "readOnly": true,
+                        "example": "01.01.2020"
+                    },
+                    "update": {
+                        "description": "Date of last creditNote position update",
+                        "type": "string",
+                        "readOnly": true,
+                        "example": "01.01.2020"
+                    },
+                    "creditNote": {
+                        "description": "The creditNote to which the position belongs.",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the creditNote",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'creditNote'",
+                                "type": "string",
+                                "default": "creditNote"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "part": {
+                        "description": "Part from your inventory which is used in the position.",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the part",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Part'",
+                                "type": "string",
+                                "default": "Part"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "quantity": {
+                        "description": "Quantity of the article/part",
+                        "type": "string",
+                        "example": "0",
+                        "nullable": false
+                    },
+                    "price": {
+                        "description": "Price of the article/part. Is either gross or net, depending on the sevDesk account setting.",
+                        "type": "string",
+                        "example": "100",
+                        "nullable": true
+                    },
+                    "priceNet": {
+                        "description": "Net price of the part",
+                        "type": "string",
+                        "example": "100",
+                        "readOnly": true,
+                        "nullable": true
+                    },
+                    "priceTax": {
+                        "description": "Tax on the price of the part",
+                        "type": "string",
+                        "default": "19",
+                        "nullable": true
+                    },
+                    "priceGross": {
+                        "description": "Gross price of the part",
+                        "type": "string",
+                        "default": "119",
+                        "nullable": true
+                    },
+                    "name": {
+                        "description": "Name of the article/part.",
+                        "type": "string",
+                        "example": "Dragonglass",
+                        "nullable": true
+                    },
+                    "unity": {
+                        "description": "The unit in which the positions part is measured",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the unit",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Unity'",
+                                "type": "string",
+                                "default": "Unity"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "sevClient": {
+                        "description": "Client to which creditNote position belongs. Will be filled automatically",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the client",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevClient'",
+                                "type": "string",
+                                "default": "SevClient"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "positionNumber": {
+                        "description": "Position number of your position. Can be used to creditNote multiple positions.",
+                        "type": "string",
+                        "default": "1000",
+                        "nullable": true
+                    },
+                    "text": {
+                        "description": "A text describing your position.",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "discount": {
+                        "description": "An optional discount of the position.",
+                        "type": "string",
+                        "example": "0",
+                        "nullable": true
+                    },
+                    "optional": {
+                        "description": "Defines if the position is optional.",
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "taxRate": {
+                        "description": "Tax rate of the position.",
+                        "type": "string",
+                        "example": "19",
+                        "nullable": false
+                    },
+                    "sumDiscount": {
+                        "description": "Discount sum of the position",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}
