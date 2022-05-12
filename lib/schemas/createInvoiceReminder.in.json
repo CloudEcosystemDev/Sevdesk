@@ -1,0 +1,39 @@
+{
+    "type": "object",
+    "properties": {
+        "invoice[id]": {
+            "required": true,
+            "type": "integer"
+        },
+        "invoice[objectName]": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "required": [
+                "invoice"
+            ],
+            "properties": {
+                "invoice": {
+                    "description": "Invoice for the reminder",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Id of the invoice",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'Invoice'",
+                            "type": "string",
+                            "example": "Invoice"
+                        }
+                    }
+                }
+            },
+            "type": "object"
+        }
+    }
+}

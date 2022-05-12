@@ -1,0 +1,34 @@
+{
+    "properties": {
+        "result": {
+            "type": "string",
+            "example": "1"
+        },
+        "letterpapers": {
+            "type": "array",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "57d7ff34f23ada297d265f21"
+                },
+                "pdf": {
+                    "type": "string"
+                },
+                "sevClient": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Blanko"
+                },
+                "default": {
+                    "type": "integer"
+                },
+                "img": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

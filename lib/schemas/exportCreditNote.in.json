@@ -1,0 +1,73 @@
+{
+    "type": "object",
+    "properties": {
+        "download": {
+            "type": "boolean"
+        },
+        "sevQuery": {
+            "required": [
+                "modelName",
+                "objectName"
+            ],
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "description": "Limit export",
+                    "example": 999999
+                },
+                "modelName": {
+                    "description": "Model name, which is 'CreditNote'"
+                },
+                "objectName": {
+                    "description": "Model name, which is 'SevQuery'",
+                    "example": "SevQuery"
+                },
+                "filter": {
+                    "type": "object",
+                    "properties": {
+                        "startDate": {
+                            "description": "Start date of the credit note",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "endDate": {
+                            "description": "End date of the credit note",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "contact": {
+                            "description": "filters the credit notes by contact",
+                            "type": "object",
+                            "required": [
+                                "id",
+                                "objectName"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "ID of the contact",
+                                    "type": "integer"
+                                },
+                                "objectName": {
+                                    "description": "Model name, which is 'Contact'",
+                                    "type": "string",
+                                    "example": "Contact"
+                                }
+                            }
+                        },
+                        "startAmount": {
+                            "description": "filters the credit notes by amount",
+                            "type": "integer",
+                            "example": 100
+                        },
+                        "endAmount": {
+                            "description": "filters the credit notes by amount",
+                            "type": "integer",
+                            "example": 150
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

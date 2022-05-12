@@ -1,0 +1,68 @@
+{
+    "type": "object",
+    "properties": {
+        "invoice[id]": {
+            "required": true,
+            "type": "integer"
+        },
+        "invoice[objectName]": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "title": "Create Invoice",
+            "description": "Invoice model",
+            "required": [
+                "order"
+            ],
+            "properties": {
+                "order": {
+                    "description": "select the order for which you want to create the invoice",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the order",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'Order'",
+                            "type": "string",
+                            "example": "Order"
+                        }
+                    },
+                    "nullable": false,
+                    "type": "object"
+                },
+                "type": {
+                    "description": "defines the type of amount",
+                    "type": "string",
+                    "enum": [
+                        "percentage",
+                        "net",
+                        "gross"
+                    ],
+                    "nullable": true
+                },
+                "amount": {
+                    "description": "Amount which has already been paid for this Invoice",
+                    "type": "number",
+                    "example": 100,
+                    "nullable": true
+                },
+                "partialType": {
+                    "description": "defines the type of the invoice\n1. RE - Schlussrechnung\n2. TR - Teilrechnung\n3. AR - Abschlagsrechnung",
+                    "enum": [
+                        "RE",
+                        "TR",
+                        "AR"
+                    ],
+                    "nullable": true
+                }
+            },
+            "type": "object"
+        }
+    }
+}

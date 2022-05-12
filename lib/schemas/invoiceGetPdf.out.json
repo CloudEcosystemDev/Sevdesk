@@ -1,0 +1,18 @@
+{
+    "properties": {
+        "filename": {
+            "type": "string"
+        },
+        "mimeType": {
+            "type": "string"
+        },
+        "content": {
+            "type": "string",
+            "format": "binary"
+        },
+        "base64encoded": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}

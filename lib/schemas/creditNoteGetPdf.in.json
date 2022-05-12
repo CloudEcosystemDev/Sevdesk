@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties": {
+        "creditNoteId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "properties": {
+                "download": {
+                    "description": "If u want to download the pdf of the credit note.",
+                    "type": "boolean",
+                    "example": true
+                },
+                "preventSendBy": {
+                    "description": "Defines if u want to send the credit note.",
+                    "type": "boolean",
+                    "example": true
+                }
+            },
+            "type": "object"
+        }
+    }
+}

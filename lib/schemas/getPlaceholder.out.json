@@ -1,0 +1,24 @@
+{
+    "properties": {
+        "key": {
+            "type": "string",
+            "example": "CONTACT"
+        },
+        "value": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "example": "BANK_NUMBER"
+                    },
+                    "value": {
+                        "type": "string",
+                        "example": "[%BANKNUMBER%]"
+                    }
+                }
+            }
+        }
+    },
+    "type": "object"
+}

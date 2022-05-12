@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+        "invoiceId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "properties": {
+                "forceReload": {
+                    "description": "Define if a forceful re-render should occur.",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

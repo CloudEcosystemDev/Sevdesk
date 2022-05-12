@@ -1,0 +1,43 @@
+{
+    "type": "object",
+    "properties": {
+        "checkAccount[id]": {
+            "required": false,
+            "type": "integer"
+        },
+        "checkAccount[objectName]": {
+            "required": false,
+            "type": "string"
+        },
+        "isBooked": {
+            "required": false,
+            "type": "boolean"
+        },
+        "paymtPurpose": {
+            "required": false,
+            "type": "string"
+        },
+        "startDate": {
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+        },
+        "endDate": {
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+        },
+        "payeePayerName": {
+            "required": false,
+            "type": "string"
+        },
+        "onlyCredit": {
+            "required": false,
+            "type": "boolean"
+        },
+        "onlyDebit": {
+            "required": false,
+            "type": "boolean"
+        }
+    }
+}

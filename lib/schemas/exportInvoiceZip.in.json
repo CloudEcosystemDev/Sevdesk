@@ -1,0 +1,88 @@
+{
+    "type": "object",
+    "properties": {
+        "download": {
+            "type": "boolean"
+        },
+        "sevQuery": {
+            "required": [
+                "modelName",
+                "objectName"
+            ],
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "description": "Limit export",
+                    "example": 999999
+                },
+                "modelName": {
+                    "description": "Model name, which is 'Invoice'"
+                },
+                "objectName": {
+                    "description": "Model name, which is 'SevQuery'",
+                    "example": "SevQuery"
+                },
+                "filter": {
+                    "type": "object",
+                    "properties": {
+                        "invoiceType": {
+                            "type": "array",
+                            "description": "Type of invoices you want to export\n1. RE - Rechnung\n2. SR - Stornorechnung\n3. TR - Teilrechnung\n4. AR - Abschlagsrechnung\n5. ER - Endrechnung\n6. WKR - Wiederkehrende Rechnung\n7. MA - Mahnung ",
+                            "items": {
+                                "enum": [
+                                    "Re",
+                                    "SR",
+                                    "TR",
+                                    "AR",
+                                    "ER",
+                                    "WKR",
+                                    "MA"
+                                ]
+                            }
+                        },
+                        "startDate": {
+                            "description": "Start date of the invoice",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "endDate": {
+                            "description": "End date of the invoice",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "contact": {
+                            "description": "filters the invoices by contact",
+                            "type": "object",
+                            "required": [
+                                "id",
+                                "objectName"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "ID of the contact",
+                                    "type": "integer"
+                                },
+                                "objectName": {
+                                    "description": "Model name, which is 'Contact'",
+                                    "type": "string",
+                                    "example": "Contact"
+                                }
+                            }
+                        },
+                        "startAmount": {
+                            "description": "filters the invoices by amount",
+                            "type": "integer",
+                            "example": 100
+                        },
+                        "endAmount": {
+                            "description": "filters the invoices by amount",
+                            "type": "integer",
+                            "example": 150
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

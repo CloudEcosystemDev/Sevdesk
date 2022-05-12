@@ -1,0 +1,34 @@
+{
+    "type": "object",
+    "properties": {
+        "order[id]": {
+            "required": true,
+            "type": "integer"
+        },
+        "order[objectName]": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "title": "Create packing list",
+            "description": "order model",
+            "required": [
+                "id",
+                "objectName"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Unique identifier of the order",
+                    "type": "integer"
+                },
+                "objectName": {
+                    "description": "Model name, which is 'Order'",
+                    "type": "string",
+                    "example": "Order"
+                }
+            },
+            "nullable": false,
+            "type": "object"
+        }
+    }
+}

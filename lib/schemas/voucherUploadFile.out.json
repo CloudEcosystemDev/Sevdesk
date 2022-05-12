@@ -1,0 +1,19 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "filename": {
+                        "type": "string"
+                    },
+                    "mimeType": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}

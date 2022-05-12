@@ -1,0 +1,121 @@
+{
+    "type": "object",
+    "properties": {
+        "contactAddressId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "title": "Contact address",
+            "description": "ContactAddress model",
+            "properties": {
+                "contact": {
+                    "description": "The contact to which this contact address belongs.",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the contact",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'Contact'",
+                            "type": "string",
+                            "default": "Contact"
+                        }
+                    },
+                    "type": "object",
+                    "nullable": true
+                },
+                "street": {
+                    "description": "Street name",
+                    "type": "string",
+                    "default": null,
+                    "example": "South road 15",
+                    "nullable": true
+                },
+                "zip": {
+                    "description": "Zib code",
+                    "type": "string",
+                    "default": null,
+                    "example": "12345",
+                    "nullable": true
+                },
+                "city": {
+                    "description": "City name",
+                    "type": "string",
+                    "example": "The North",
+                    "nullable": true
+                },
+                "country": {
+                    "description": "Country of the contact address.<br>\r\n    For all countries, send a GET to /StaticCountry",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the country",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'StaticCountry'",
+                            "type": "string",
+                            "default": "StaticCountry"
+                        }
+                    },
+                    "type": "object",
+                    "nullable": true
+                },
+                "category": {
+                    "description": "Category of the contact address.<br>\r\n     For all categories, send a GET to /Category?objectType=ContactAddress.",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the category",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'Category'",
+                            "type": "string"
+                        }
+                    },
+                    "type": "object",
+                    "default": null,
+                    "nullable": true
+                },
+                "name": {
+                    "description": "Name in address",
+                    "type": "string",
+                    "default": null,
+                    "example": "John Snow",
+                    "nullable": true
+                },
+                "name2": {
+                    "description": "Second name in address",
+                    "type": "string",
+                    "default": null,
+                    "example": "Targaryen"
+                },
+                "name3": {
+                    "description": "Third name in address",
+                    "type": "string",
+                    "default": null,
+                    "nullable": true
+                },
+                "name4": {
+                    "description": "Fourth name in address",
+                    "type": "string",
+                    "default": null,
+                    "nullable": true
+                }
+            },
+            "type": "object"
+        }
+    }
+}

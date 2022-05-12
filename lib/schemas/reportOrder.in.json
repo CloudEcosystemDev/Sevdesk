@@ -1,0 +1,83 @@
+{
+    "type": "object",
+    "properties": {
+        "download": {
+            "type": "boolean"
+        },
+        "sevQuery": {
+            "required": [
+                "modelName",
+                "objectName"
+            ],
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "description": "Limit export",
+                    "example": 999999
+                },
+                "modelName": {
+                    "description": "Model name which is exported",
+                    "example": "Order"
+                },
+                "objectName": {
+                    "description": "SevQuery object name",
+                    "example": "SevQuery"
+                },
+                "filter": {
+                    "type": "object",
+                    "properties": {
+                        "orderType": {
+                            "type": "string",
+                            "description": "Type of orders you want to export\n1. AN - Angebote\n2. AB - Aufträge\n3. LI - Lieferscheine",
+                            "enum": [
+                                "AN",
+                                "AB",
+                                "LI"
+                            ]
+                        },
+                        "startDate": {
+                            "description": "Start date of the order",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "endDate": {
+                            "description": "End date of the order",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "contact": {
+                            "description": "filters the orders by contact",
+                            "type": "object",
+                            "required": [
+                                "id",
+                                "objectName"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "ID of the contact",
+                                    "type": "integer"
+                                },
+                                "objectName": {
+                                    "description": "Model name, which is 'Contact'",
+                                    "type": "string",
+                                    "example": "Contact"
+                                }
+                            }
+                        },
+                        "startAmount": {
+                            "description": "filters the orders by amount",
+                            "type": "integer",
+                            "example": 100
+                        },
+                        "endAmount": {
+                            "description": "filters the orders by amount",
+                            "type": "integer",
+                            "example": 150
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

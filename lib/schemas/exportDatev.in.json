@@ -1,0 +1,47 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "download": {
+                    "description": "Specifies if the document is downloaded",
+                    "type": "boolean",
+                    "example": true
+                },
+                "startDate": {
+                    "description": "the start date of the export as timestamp",
+                    "type": "integer",
+                    "nullable": false,
+                    "example": 1641032867
+                },
+                "endDate": {
+                    "description": "the end date of the export as timestamp",
+                    "type": "integer",
+                    "nullable": false,
+                    "example": 1648805267
+                },
+                "scope": {
+                    "description": "Define what you want to include in the datev export. This parameter takes a string of 5 letters. Each stands for a model that should be included. Possible letters are: ‘E’ (Earnings), ‘X’ (Expenditure), ‘T’ (Transactions), ‘C’ (Cashregister), ‘D’ (Assets). By providing one of those letter you specify that it should be included in the datev export. Some combinations are: ‘EXTCD’, ‘EXTD’ …",
+                    "type": "string",
+                    "example": "EXTCD"
+                },
+                "withUnpaidDocuments": {
+                    "description": "include unpaid documents",
+                    "type": "boolean",
+                    "example": true
+                },
+                "withEnshrinedDocuments": {
+                    "description": "include enshrined documents",
+                    "type": "boolean",
+                    "example": true
+                },
+                "enshrine": {
+                    "description": "Specify if you want to enshrine all models which were included in the export",
+                    "type": "boolean",
+                    "example": false
+                }
+            },
+            "type": "object"
+        }
+    }
+}

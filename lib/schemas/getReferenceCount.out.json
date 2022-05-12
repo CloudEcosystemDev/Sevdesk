@@ -1,0 +1,10 @@
+{
+    "properties": {
+        "objects": {
+            "description": "the count of all references",
+            "type": "integer",
+            "example": 1
+        }
+    },
+    "type": "object"
+}

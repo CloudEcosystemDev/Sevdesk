@@ -1,0 +1,1691 @@
+{
+    "title": "sevDesk API",
+    "description": "\r\n# General information\r\nWelcome to our API!<br>\r\nsevDesk offers you the possibility of retrieving data using an interface, namely the sevDesk API, and making changes without having to use the web UI. The sevDesk interface is a REST-Full API. All sevDesk data and functions that are used in the web UI can also be controlled through the API.\r\n\n# Cross-Origin Resource Sharing\r\nThis API features Cross-Origin Resource Sharing (CORS).<br>\r\nIt enables cross-domain communication from the browser.<br>\r\nAll responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.\r\n\r\n# Embedding resources\r\nWhen retrieving resources by using this API, you might encounter nested resources in the resources you requested.<br>\r\nFor example, an invoice always contains a contact, of which you can see the ID and the object name.<br>\r\nThis API gives you the possibility to embed these resources completely into the resources you originally requested.<br>\r\nTaking our invoice example, this would mean, that you would not only see the ID and object name of a contact, but rather the complete contact resource.\r\n\r\nTo embed resources, all you need to do is to add the query parameter 'embed' to your GET request.<br>\r\nAs values, you can provide the name of the nested resource.<br>\r\nMultiple nested resources are also possible by providing multiple names, separated by a comma.\r\n \n# Authentication and Authorization \n The sevDesk API uses a token authentication to authorize calls. For this purpose every sevDesk administrator has one API token, which is a <b>hexadecimal string</b> containing <b>32 characters</b>. The following clip shows where you can find the API token if this is your first time with our API.<br><br> <video src='OpenAPI/img/findingTheApiToken.mp4' controls width='640' height='360'> Ihr Browser kann dieses Video nicht wiedergeben.<br/> Dieses Video zeigt wie sie Ihr sevDesk API Token finden. </video> <br> The token will be needed in every request that you want to send and needs to be attached to the request url as a <b>Query Parameter</b><br> or provided as a value of an <b>Authorization Header</b>.<br> For security reasons, we suggest putting the API Token in the Authorization Header and not in the query string.<br> However, in the request examples in this documentation, we will keep it in the query string, as it is easier for you to copy them and try them yourself.<br> The following url is an example that shows where your token needs to be placed as a query parameter.<br> In this case, we used some random API token. <ul> <li><span>ht</span>tps://my.sevdesk.de/api/v1/Contact?token=<span style='color:red'>b7794de0085f5cd00560f160f290af38</span></li> </ul> The next example shows the token in the Authorization Header. <ul> <li>\"Authorization\" :<span style='color:red'>\"b7794de0085f5cd00560f160f290af38\"</span></li> </ul> The api tokens have an infinite lifetime and, in other words, exist as long as the sevDesk user exists.<br> For this reason, the user should <b>NEVER</b> be deleted.<br> If really necessary, it is advisable to save the api token as we will <b>NOT</b> be able to retrieve it afterwards!<br> It is also possible to generate a new API token, for example, if you want to prevent the usage of your sevDesk account by other people who got your current API token.<br> To achieve this, you just need to click on the \"generate new\" symbol to the right of your token and confirm it with your password. \n# API Requests \n In our case, REST API requests need to be build by combining the following components. <table> <tr> <th><b>Component</b></th> <th><b>Description</b></th> </tr> <tr> <td>HTTP-Methods</td> <td> <ul> <li>GET (retrieve a resource)</li> <li>POST (create a resource)</li> <li>PUT (update a resource)</li> <li>DELETE (delete a resource)</li> </ul> </td> </tr> <tr> <td>URL of the API</td> <td><span style='color: #2aa198'>ht</span><span style='color: #2aa198'>tps://my.sevdesk.de/api/v1</span></td> </tr> <tr> <td>URI of the resource</td> <td>The resource to query.<br>For example contacts in sevDesk:<br><br> <span style='color:red'>/Contact</span><br><br> Which will result in the following complete URL:<br><br> <span style='color: #2aa198'>ht</span><span style='color: #2aa198'>tps://my.sevdesk.de/api/v1</span><span style='color:red'>/Contact</span> </td> </tr> <tr> <td>Query parameters</td> <td>Are attached by using the connectives <b>?</b> and <b>&</b> in the URL.<br></td> </tr> <tr> <td>Request headers</td> <td>Typical request headers are for example:<br> <div> <br> <ul> <li>Content-type</li> <li>Authorization</li> <li>Accept-Encoding</li> <li>...</li> </ul> </div> </td> </tr> <tr> <td>Request body</td> <td>Mostly required in POST and PUT requests.<br> Often the request body contains json, in our case, it also accepts url-encoded data. </td> </tr> </table> This is a sample request for retrieving existing contacts in sevDesk using curl:<br><br> <img src='OpenAPI/img/GETRequest.PNG' alt='Get Request' height='150'><br><br> As you can see, the request contains all the components mentioned above.<br> It's HTTP method is GET, it has a correct endpoint (<span style='color: #2aa198'>ht</span><span style='color: #2aa198'>tps://my.sevdesk.de/api/v1</span><span style='color:red'>/Contact</span>), query parameters like <b>token</b> and additional <b>header</b> information!<br><br> <b>Query Parameters</b><br><br> As you might have seen in the sample request above, there are several other parameters besides \"token\", located in the url.<br> Those are mostly optional but prove to be very useful for a lot of requests as they can limit, extend, sort or filter the data you will get as a response.<br><br> These are the three most used query parameter for the sevDesk API. <table> <tr> <th><b>Parameter</b></th> <th><b>Description</b></th> </tr> <tr> <td>limit</td> <td>Limits the number of entries that are returned.<br> Most useful in GET requests which will most likely deliver big sets of data like country or currency lists.<br> In this case, you can bypass the default limitation on returned entries by providing a high number. </td> </tr> <tr> <td>offset</td> <td>Specifies a certain offset for the data that will be returned.<br> As an example, you can specify \"offset=2\" if you want all entries except for the first two.</td> </tr> <tr> <td>embed</td> <td>Will extend some of the returned data.<br> A brief example can be found below.</td> </tr> </table> This is an example for the usage of the embed parameter.<br> The following first request will return all company contact entries in sevDesk up to a limit of 100 without any additional information and no offset.<br><br> <img src='OpenAPI/img/ContactQueryWithoutEmbed.PNG' width='900' height='850'><br><br> Now have a look at the category attribute located in the response.<br> Naturally, it just contains the id and the object name of the object but no further information.<br> We will now use the parameter embed with the value \"category\".<br><br> <img src='OpenAPI/img/ContactQueryWithEmbed.PNG' width='900' height='850'><br><br> As you can see, the category object is now extended and shows all the attributes and their corresponding values.<br><br> There are lot of other query parameters that can be used to filter the returned data for objects that match a certain pattern, however, those will not be mentioned here and instead can be found at the detail documentation of the most used API endpoints like contact, invoice or voucher.<br><br> <b>Request Headers</b><br><br> The HTTP request (response) headers allow the client as well as the server to pass additional information with the request.<br> They transfer the parameters and arguments which are important for transmitting data over HTTP.<br> Three headers which are useful / necessary when using the sevDesk API are \"Authorization, \"Accept\" and \"Content-type\".<br> Underneath is a brief description of why and how they should be used.<br><br> <b>Authorization</b><br><br> Can be used if you want to provide your API token in the header instead of having it in the url. <ul> <li>Authorization:<span style='color:red'>yourApiToken</span></li> </ul> <b>Accept</b><br><br> Specifies the format of the response.<br> Required for operations with a response body. <ul> <li>Accept:application/<span style='color:red'>format</span> </li> </ul> In our case, <code><span style='color:red'>format</span></code> could be replaced with <code>json</code> or <code>xml</code><br><br> <b>Content-type</b><br><br> Specifies which format is used in the request.<br> Is required for operations with a request body. <ul> <li>Content-type:application/<span style='color:red'>format</span></li> </ul> In our case,<code><span style='color:red'>format</span></code>could be replaced with <code>json</code> or <code>x-www-form-urlencoded</code> <br><br><b>API Responses</b><br><br> HTTP status codes<br> When calling the sevDesk API it is very likely that you will get a HTTP status code in the response.<br> Some API calls will also return JSON response bodies which will contain information about the resource.<br> Each status code which is returned will either be a <b>success</b> code or an <b>error</b> code.<br><br> Success codes <table> <tr> <th><b>Status code</b></th> <th><b>Description</b></th> </tr> <tr> <td><code>200 OK</code></td> <td>The request was successful</td> </tr> <tr> <td><code>201 Created</code></td> <td>Most likely to be found in the response of a <b>POST</b> request.<br> This code indicates that the desired resource was successfully created.</td> </tr> </table> <br>Error codes <table> <tr> <th><b>Status code</b></th> <th><b>Description</b></th> </tr> <tr> <td><code>400 Bad request</code></td> <td>The request you sent is most likely syntactically incorrect.<br> You should check if the parameters in the request body or the url are correct.</td> </tr> <tr> <td><code>401 Unauthorized</code></td> <td>The authentication failed.<br> Most likely caused by a missing or wrong API token.</td> </tr> <tr> <td><code>403 Forbidden</code></td> <td>You do not have the permission the access the resource which is requested.</td> </tr> <tr> <td><code>404 Not found</code></td> <td>The resource you specified does not exist.</td> </tr> <tr> <td><code>500 Internal server error</code></td> <td>An internal server error has occurred.<br> Normally this means that something went wrong on our side.<br> However, sometimes this error will appear if we missed to catch an error which is normally a 400 status code! </td> </tr> </table> \n# Your First Request \n After reading the introduction to our API, you should now be able to make your first call.<br> For testing our API, we would always recommend to create a trial account for sevDesk to prevent unwanted changes to your main account.<br> A trial account will be in the highest tariff (materials management), so every sevDesk function can be tested! <br><br>To start testing we would recommend one of the following tools: <ul> <li><a href='https://www.getpostman.com/'>Postman</a></li> <li><a href='https://curl.haxx.se/download.html'>cURL</a></li> </ul> This example will illustrate your first request, which is creating a new Contact in sevDesk.<br> <ol> <li>Download <a href='https://www.getpostman.com/'><b>Postman</b></a> for your desired system and start the application</li> <li>Enter <span><b>ht</span>tps://my.sevdesk.de/api/v1/Contact</b> as the url</li> <li>Use the connective <b>?</b> to append <b>token=</b> to the end of the url, or create an authorization header. Insert your API token as the value</li> <li>For this test, select <b>POST</b> as the HTTP method</li> <li>Go to <b>Headers</b> and enter the key-value pair <b>Content-type</b> + <b>application/x-www-form-urlencoded</b><br> As an alternative, you can just go to <b>Body</b> and select <b>x-www-form-urlencoded</b></li> <li>Now go to <b>Body</b> (if you are not there yet) and enter the key-value pairs as shown in the following picture<br><br> <img src='OpenAPI/img/FirstRequestPostman.PNG' width='900'><br><br></li> <li>Click on <b>Send</b>. Your response should now look like this:<br><br> <img src='OpenAPI/img/FirstRequestResponse.PNG' width='900'></li> </ol> As you can see, a successful response in this case returns a JSON-formatted response body containing the contact you just created.<br> For keeping it simple, this was only a minimal example of creating a contact.<br> There are however numerous combinations of parameters that you can provide which add information to your contact.",
+    "docsUrl": "",
+    "url": "https://my.sevdesk.de/api/v1",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://my.sevdesk.de/api/v1 - Our main application instance which most of our customers work with",
+                    "https://my.pebesmart.ch/api/v1 - Our swiss application instance, hosted and maintained by smart seven AG",
+                    "http://sevdesk.local/api/v1 - sevDesk internal local instance",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "auth_api_key": {
+                "label": "Authorization (api_key)",
+                "viewClass": "TextFieldView"
+            }
+        }
+    },
+    "triggers": {
+        "lookup": {
+            "main": "./lib/lookups/lookup.js",
+            "title": "Function to run a lookup",
+            "description": "Function to call an internal trigger or action"
+        },
+        "sendCreditNoteByPrinting": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Send credit note by printing",
+            "description": "Sending a credit note to end-customers is an important part of the bookkeeping process.<br> Depending on the way you want to send the credit note, you need to use different endpoints.<br> Let's start with just printing out the credit note, meaning we only need to render the pdf.",
+            "callParams": {
+                "pathName": "/creditNote/{creditNoteId}/sendByWithRender",
+                "method": "get",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/sendCreditNoteByPrinting.in.json",
+                "out": "./lib/schemas/sendCreditNoteByPrinting.out.json"
+            }
+        },
+        "exportVoucher": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export voucher as zip",
+            "description": "Export all vouchers as zip",
+            "callParams": {
+                "pathName": "/Export/voucherListCsv",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/exportVoucher.in.json",
+                "out": "./lib/schemas/exportVoucher.out.json"
+            }
+        },
+        "getContactFieldSettings": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve contact field settings",
+            "description": "Retrieve all contact field settings",
+            "callParams": {
+                "pathName": "/ContactCustomFieldSetting",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getContactFieldSettings.in.json",
+                "out": "./lib/schemas/getContactFieldSettings.out.json"
+            }
+        },
+        "exportInvoice": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export invoice",
+            "description": "Export all invoices as csv",
+            "callParams": {
+                "pathName": "/Export/invoiceCsv",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/exportInvoice.in.json",
+                "out": "./lib/schemas/exportInvoice.out.json"
+            }
+        },
+        "getDiscounts": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Find order discounts",
+            "description": "Returns all discounts of an order",
+            "callParams": {
+                "pathName": "/Order/{orderId}/getDiscounts",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getDiscounts.in.json",
+                "out": "./lib/schemas/getDiscounts.out.json"
+            }
+        },
+        "invoiceGetPdf": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve pdf document of an invoice",
+            "description": "Retrieves the pdf document of an invoice with additional metadata.",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/getPdf",
+                "method": "get",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/invoiceGetPdf.in.json",
+                "out": "./lib/schemas/invoiceGetPdf.out.json"
+            }
+        },
+        "getIsInvoicePartiallyPaid": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Check if an invoice is already partially paid",
+            "description": "Returns 'true' if the given invoice is partially paid - 'false' if it is not.\r\n    Invoices which are completely paid are regarded as not partially paid.",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/getIsPartiallyPaid",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getIsInvoicePartiallyPaid.in.json",
+                "out": "./lib/schemas/getIsInvoicePartiallyPaid.out.json"
+            }
+        },
+        "getOrderPositions": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve order positions",
+            "description": "Retrieve all order positions depending on the filters defined in the query.",
+            "callParams": {
+                "pathName": "/OrderPos",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getOrderPositions.in.json",
+                "out": "./lib/schemas/getOrderPositions.out.json"
+            }
+        },
+        "getInvoices": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve invoices",
+            "description": "There are a multitude of parameter which can be used to filter. A few of them are attached but\r\n     for a complete list please check out <a href='https://api.sevdesk.de/#section/How-to-filter-for-certain-invoices'>this</a> list",
+            "callParams": {
+                "pathName": "/Invoice",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getInvoices.in.json",
+                "out": "./lib/schemas/getInvoices.out.json"
+            }
+        },
+        "reportInvoice": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export invoice list",
+            "description": "Export invoice list",
+            "callParams": {
+                "pathName": "/Report/invoicelist",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/reportInvoice.in.json",
+                "out": "./lib/schemas/reportInvoice.out.json"
+            }
+        },
+        "getLetterpapersWithThumb": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve letterpapers",
+            "description": "Retrieve all letterpapers with Thumb",
+            "callParams": {
+                "pathName": "/DocServer/getLetterpapersWithThumb",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getLetterpapersWithThumb.in.json",
+                "out": "./lib/schemas/getLetterpapersWithThumb.out.json"
+            }
+        },
+        "getOrders": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve orders",
+            "description": "There are a multitude of parameter which can be used to filter. A few of them are attached but\r\n    for a complete list please check out <a href='https://api.sevdesk.de/#section/How-to-filter-for-certain-orders'>this</a> list",
+            "callParams": {
+                "pathName": "/Order",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getOrders.in.json",
+                "out": "./lib/schemas/getOrders.out.json"
+            }
+        },
+        "reportOrder": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export order list",
+            "description": "Export order list",
+            "callParams": {
+                "pathName": "/Report/orderlist",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/reportOrder.in.json",
+                "out": "./lib/schemas/reportOrder.out.json"
+            }
+        },
+        "getContactFields": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve contact fields",
+            "description": "Retrieve all contact fields",
+            "callParams": {
+                "pathName": "/ContactCustomField",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getContactFields.in.json",
+                "out": "./lib/schemas/getContactFields.out.json"
+            }
+        },
+        "getContactTabsItemCountById": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Get number of all items",
+            "description": "Get number of all invoices, orders, etc. of a specified contact",
+            "callParams": {
+                "pathName": "/Contact/{contactId}/getTabsItemCount",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getContactTabsItemCountById.in.json",
+                "out": "./lib/schemas/getContactTabsItemCountById.out.json"
+            }
+        },
+        "getOrderPositionsById": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Find order positions",
+            "description": "Returns all positions of an order",
+            "callParams": {
+                "pathName": "/Order/{orderId}/getPositions",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getOrderPositionsById.in.json",
+                "out": "./lib/schemas/getOrderPositionsById.out.json"
+            }
+        },
+        "getCreditNotes": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve CreditNote",
+            "description": "There are a multitude of parameter which can be used to filter.",
+            "callParams": {
+                "pathName": "/CreditNote",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getCreditNotes.in.json",
+                "out": "./lib/schemas/getCreditNotes.out.json"
+            }
+        },
+        "exportTransactions": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export transaction",
+            "description": "Export all transactions as csv",
+            "callParams": {
+                "pathName": "/Export/transactionsCsv",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/exportTransactions.in.json",
+                "out": "./lib/schemas/exportTransactions.out.json"
+            }
+        },
+        "getInvoicePos": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve InvoicePos",
+            "description": "There are a multitude of parameter which can be used to filter.",
+            "callParams": {
+                "pathName": "/InvoicePos",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getInvoicePos.in.json",
+                "out": "./lib/schemas/getInvoicePos.out.json"
+            }
+        },
+        "reportVoucher": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export voucher list",
+            "description": "Export voucher list",
+            "callParams": {
+                "pathName": "/Report/voucherlist",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/reportVoucher.in.json",
+                "out": "./lib/schemas/reportVoucher.out.json"
+            }
+        },
+        "getContacts": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve contacts",
+            "description": "There are a multitude of parameter which can be used to filter.<br>\r\n     A few of them are attached but\r\n     for a complete list please check out <a href='https://api.sevdesk.de/#section/How-to-filter-for-certain-contacts'>this</a> list",
+            "callParams": {
+                "pathName": "/Contact",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getContacts.in.json",
+                "out": "./lib/schemas/getContacts.out.json"
+            }
+        },
+        "exportCreditNote": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export creditNote",
+            "description": "Export all credit notes as csv",
+            "callParams": {
+                "pathName": "/Export/creditNoteCsv",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/exportCreditNote.in.json",
+                "out": "./lib/schemas/exportCreditNote.out.json"
+            }
+        },
+        "getPlaceholder": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve Placeholders",
+            "description": "Retrieve all Placeholders",
+            "callParams": {
+                "pathName": "/Textparser/fetchDictionaryEntriesByType",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getPlaceholder.in.json",
+                "out": "./lib/schemas/getPlaceholder.out.json"
+            }
+        },
+        "partGetStock": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Get stock of a part",
+            "description": "Returns the current stock amount of the given part.",
+            "callParams": {
+                "pathName": "/Part/{partId}/getStock",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/partGetStock.in.json",
+                "out": "./lib/schemas/partGetStock.out.json"
+            }
+        },
+        "creditNoteGetPdf": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve pdf document of a credit note",
+            "description": "Retrieves the pdf document of a credit note with additional metadata.",
+            "callParams": {
+                "pathName": "/CreditNote/{creditNoteId}/getPdf",
+                "method": "get",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/creditNoteGetPdf.in.json",
+                "out": "./lib/schemas/creditNoteGetPdf.out.json"
+            }
+        },
+        "getVouchers": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve vouchers",
+            "description": "There are a multitude of parameter which can be used to filter. A few of them are attached but\r\n    for a complete list please check out <a href='https://api.sevdesk.de/#section/How-to-filter-for-certain-vouchers'>this</a> list",
+            "callParams": {
+                "pathName": "/Voucher",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getVouchers.in.json",
+                "out": "./lib/schemas/getVouchers.out.json"
+            }
+        },
+        "reportContact": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export contact list",
+            "description": "Export contact list",
+            "callParams": {
+                "pathName": "/Report/contactlist",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/reportContact.in.json",
+                "out": "./lib/schemas/reportContact.out.json"
+            }
+        },
+        "contactCustomerNumberAvailabilityCheck": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Check if a customer number is available",
+            "description": "Checks if a given customer number is available or already used.",
+            "callParams": {
+                "pathName": "/Contact/Mapper/checkCustomerNumberAvailability",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/contactCustomerNumberAvailabilityCheck.in.json",
+                "out": "./lib/schemas/contactCustomerNumberAvailabilityCheck.out.json"
+            }
+        },
+        "getTagRelations": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve tag relations",
+            "description": "Retrieve all tag relations",
+            "callParams": {
+                "pathName": "/TagRelation",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getTagRelations.in.json",
+                "out": "./lib/schemas/getTagRelations.out.json"
+            }
+        },
+        "getTransactions": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve transactions",
+            "description": "Retrieve all transactions depending on the filters defined in the query.",
+            "callParams": {
+                "pathName": "/CheckAccountTransaction",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getTransactions.in.json",
+                "out": "./lib/schemas/getTransactions.out.json"
+            }
+        },
+        "getVoucherPositions": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve voucher positions",
+            "description": "Retrieve all voucher positions depending on the filters defined in the query.",
+            "callParams": {
+                "pathName": "/VoucherPos",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getVoucherPositions.in.json",
+                "out": "./lib/schemas/getVoucherPositions.out.json"
+            }
+        },
+        "getcreditNotePositions": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve creditNote positions",
+            "description": "Retrieve all creditNote positions depending on the filters defined in the query.",
+            "callParams": {
+                "pathName": "/creditNotePos",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getcreditNotePositions.in.json",
+                "out": "./lib/schemas/getcreditNotePositions.out.json"
+            }
+        },
+        "getCheckAccounts": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve check accounts",
+            "description": "Retrieve all check accounts",
+            "callParams": {
+                "pathName": "/CheckAccount",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getCheckAccounts.in.json",
+                "out": "./lib/schemas/getCheckAccounts.out.json"
+            }
+        },
+        "getCommunicationWayKeys": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve communication way keys",
+            "description": "Returns all communication way keys.",
+            "callParams": {
+                "pathName": "/CommunicationWayKey",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getCommunicationWayKeys.in.json",
+                "out": "./lib/schemas/getCommunicationWayKeys.out.json"
+            }
+        },
+        "exportInvoiceZip": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export Invoice as zip",
+            "description": "Export all invoices as zip",
+            "callParams": {
+                "pathName": "/Export/invoiceZip",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/exportInvoiceZip.in.json",
+                "out": "./lib/schemas/exportInvoiceZip.out.json"
+            }
+        },
+        "getReferenceCount": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Receive count reference",
+            "description": "Receive count reference",
+            "callParams": {
+                "pathName": "/ContactCustomFieldSetting/{contactCustomFieldSettingId}/getReferenceCount",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getReferenceCount.in.json",
+                "out": "./lib/schemas/getReferenceCount.out.json"
+            }
+        },
+        "getAccountingContact": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve accounting contact",
+            "description": "Returns all accounting contact which have been added up until now. Filters can be added.",
+            "callParams": {
+                "pathName": "/AccountingContact",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getAccountingContact.in.json",
+                "out": "./lib/schemas/getAccountingContact.out.json"
+            }
+        },
+        "orderGetPdf": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve pdf document of an order",
+            "description": "Retrieves the pdf document of an order with additional metadata and commit the order.",
+            "callParams": {
+                "pathName": "/Order/{orderId}/getPdf",
+                "method": "get",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/orderGetPdf.in.json",
+                "out": "./lib/schemas/orderGetPdf.out.json"
+            }
+        },
+        "getInvoicePositionsById": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Find invoice positions",
+            "description": "Returns all positions of an invoice",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/getPositions",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getInvoicePositionsById.in.json",
+                "out": "./lib/schemas/getInvoicePositionsById.out.json"
+            }
+        },
+        "getTags": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve tags",
+            "description": "Retrieve all tags",
+            "callParams": {
+                "pathName": "/Tag",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getTags.in.json",
+                "out": "./lib/schemas/getTags.out.json"
+            }
+        },
+        "getParts": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve parts",
+            "description": "Retrieve all parts in your sevDesk inventory according to the applied filters.",
+            "callParams": {
+                "pathName": "/Part",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getParts.in.json",
+                "out": "./lib/schemas/getParts.out.json"
+            }
+        },
+        "exportContact": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export contact",
+            "description": "Contact export as csv",
+            "callParams": {
+                "pathName": "/Export/contactListCsv",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/exportContact.in.json",
+                "out": "./lib/schemas/exportContact.out.json"
+            }
+        },
+        "exportVoucherZip": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export voucher zip",
+            "description": "export all vouchers as zip",
+            "callParams": {
+                "pathName": "/Export/voucherZip",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/exportVoucherZip.in.json",
+                "out": "./lib/schemas/exportVoucherZip.out.json"
+            }
+        },
+        "getCommunicationWays": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve communication ways",
+            "description": "Returns all communication ways which have been added up until now. Filters can be added.",
+            "callParams": {
+                "pathName": "/CommunicationWay",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getCommunicationWays.in.json",
+                "out": "./lib/schemas/getCommunicationWays.out.json"
+            }
+        },
+        "getContactAddresses": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve contact addresses",
+            "description": "Retrieve all contact addresses",
+            "callParams": {
+                "pathName": "/ContactAddress",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getContactAddresses.in.json",
+                "out": "./lib/schemas/getContactAddresses.out.json"
+            }
+        },
+        "getNextCustomerNumber": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Get next free customer number",
+            "description": "Retrieves the next available customer number. Avoids duplicates.",
+            "callParams": {
+                "pathName": "/Contact/Factory/getNextCustomerNumber",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getNextCustomerNumber.in.json",
+                "out": "./lib/schemas/getNextCustomerNumber.out.json"
+            }
+        },
+        "getRelatedObjects": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Find related objects",
+            "description": "Get related objects of a specified order",
+            "callParams": {
+                "pathName": "/Order/{orderId}/getRelatedObjects",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getRelatedObjects.in.json",
+                "out": "./lib/schemas/getRelatedObjects.out.json"
+            }
+        },
+        "getTemplates": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Retrieve templates",
+            "description": "Retrieve all templates",
+            "callParams": {
+                "pathName": "/DocServer/getTemplatesWithThumb",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getTemplates.in.json",
+                "out": "./lib/schemas/getTemplates.out.json"
+            }
+        },
+        "exportDatev": {
+            "main": "./lib/triggers/trigger.js",
+            "title": "Export datev",
+            "description": "Datev export as zip with csv's",
+            "callParams": {
+                "pathName": "/Export/datevCSV",
+                "method": "get",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/exportDatev.in.json",
+                "out": "./lib/schemas/exportDatev.out.json"
+            }
+        }
+    },
+    "actions": {
+        "bookVoucher": {
+            "main": "./lib/actions/action.js",
+            "title": "Book a voucher",
+            "description": "Booking the voucher with a transaction is probably the most important part in the bookkeeping process.<br> There are several ways on correctly booking a voucher, all by using the same endpoint.<br> Conveniently, the booking process is exactly the same as the process for invoices.<br> For this reason, you can have a look at it <a href='https://api.sevdesk.de/#section/How-to-book-an-invoice'>here</a> and all you need to to is to change \"Invoice\" into \"Voucher\" in the URL.",
+            "callParams": {
+                "pathName": "/Voucher/{voucherId}/bookAmount",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/bookVoucher.in.json",
+                "out": "./lib/schemas/bookVoucher.out.json"
+            }
+        },
+        "getAccountingContactById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find accounting contact by ID",
+            "description": "Returns a single accounting contac",
+            "callParams": {
+                "pathName": "/AccountingContact/{accountingContactId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getAccountingContactById.in.json",
+                "out": "./lib/schemas/getAccountingContactById.out.json"
+            }
+        },
+        "updateAccountingContact": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an existing accounting contact",
+            "description": "Update an accounting contact",
+            "callParams": {
+                "pathName": "/AccountingContact/{accountingContactId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateAccountingContact.in.json",
+                "out": "./lib/schemas/updateAccountingContact.out.json"
+            }
+        },
+        "createContactFieldSetting": {
+            "main": "./lib/actions/action.js",
+            "title": "Create contact field setting",
+            "description": "Create contact field setting",
+            "callParams": {
+                "pathName": "/ContactCustomFieldSetting",
+                "method": "post",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createContactFieldSetting.in.json",
+                "out": "./lib/schemas/createContactFieldSetting.out.json"
+            }
+        },
+        "getCheckAccountTransactionById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find check account transaction by ID",
+            "description": "Retrieve an existing check account transaction",
+            "callParams": {
+                "pathName": "/CheckAccountTransaction/{checkAccountTransactionId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getCheckAccountTransactionById.in.json",
+                "out": "./lib/schemas/getCheckAccountTransactionById.out.json"
+            }
+        },
+        "createPackingListFromOrder": {
+            "main": "./lib/actions/action.js",
+            "title": "Create packing list from order",
+            "description": "Create packing list from order",
+            "callParams": {
+                "pathName": "/Order/Factory/createPackingListFromOrder",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createPackingListFromOrder.in.json",
+                "out": "./lib/schemas/createPackingListFromOrder.out.json"
+            }
+        },
+        "bookInvoice": {
+            "main": "./lib/actions/action.js",
+            "title": "Book an invoice",
+            "description": "Booking the invoice with a transaction is probably the most important part in the bookkeeping process.<br> There are several ways on correctly booking an invoice, all by using the same endpoint.<br> for more information look <a href='https://api.sevdesk.de/#section/How-to-book-an-invoice'>here</a>.",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/bookAmount",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/bookInvoice.in.json",
+                "out": "./lib/schemas/bookInvoice.out.json"
+            }
+        },
+        "sendInvoiceViaEMail": {
+            "main": "./lib/actions/action.js",
+            "title": "Send invoice via email",
+            "description": "This endpoint sends the specified invoice to a customer via email.<br>\r\n    This will automatically mark the invoice as sent.<br>\r\n    Please note, that in production an invoice is not allowed to be changed after this happened!",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/sendViaEmail",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/sendInvoiceViaEMail.in.json",
+                "out": "./lib/schemas/sendInvoiceViaEMail.out.json"
+            }
+        },
+        "getInvoiceById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find invoice by ID",
+            "description": "Returns a single invoice",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getInvoiceById.in.json",
+                "out": "./lib/schemas/getInvoiceById.out.json"
+            }
+        },
+        "deleteCheckAccountTransaction": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes a check account transaction",
+            "callParams": {
+                "pathName": "/CheckAccountTransaction/{checkAccountTransactionId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteCheckAccountTransaction.in.json",
+                "out": "./lib/schemas/deleteCheckAccountTransaction.out.json"
+            }
+        },
+        "updateContactAddress": {
+            "main": "./lib/actions/action.js",
+            "title": "update a existing contact address",
+            "description": "update a existing contact address.",
+            "callParams": {
+                "pathName": "/ContactAddress/{contactAddressId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateContactAddress.in.json",
+                "out": "./lib/schemas/updateContactAddress.out.json"
+            }
+        },
+        "deleteContactAddress": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes a contact address",
+            "callParams": {
+                "pathName": "/ContactAddress/{contactAddressId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteContactAddress.in.json",
+                "out": "./lib/schemas/deleteContactAddress.out.json"
+            }
+        },
+        "createVoucherByFactory": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new voucher",
+            "description": "Generally there are two ways to create vouchers.<br> You can create vouchers by either POSTing to the <b>Voucher</b> and <b>VoucherPos</b> endpoints with the necessary parameters (see attribute lists) or you can use a special endpoint which bundles the requests in one.<br> <br> The list of parameters starts with the voucher array.<br> This array contains all required attributes for a complete voucher.<br> Most of the attributes are covered in the voucher attribute list, there are only two parameters standing out, namely <b>mapAll</b> and <b>objectName</b>.<br> These are just needed for our system and you always need to provide them.<br><br> The list of parameters then continues with the voucher position array.<br> With this array you have the possibility to add multiple positions at once.<br> In the example it only contains one position, again together with the parameters <b>mapAll</b> and <b>objectName</b>, however, you can add more voucher positions by extending the array.<br> So if you wanted to add another position, you would add the same list of parameters with an incremented array index of \\\"1\\\" instead of \\\"0\\\".<br><br> The list ends with the two parameters voucherPosDelete and filename.<br> We will shortly explain what they can do.<br> With voucherPosDelete you have to option to delete voucher positions as this request can also be used to update vouchers.<br> With filename you can attach a file to the voucher.<br> For most of our customers this is a really important step, as they need to digitize their receipts.<br> Finally, after covering all parameters, they only important information left, is that the order of the last two attributes always needs to be kept.",
+            "callParams": {
+                "pathName": "/Voucher/Factory/saveVoucher",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createVoucherByFactory.in.json",
+                "out": "./lib/schemas/createVoucherByFactory.out.json"
+            }
+        },
+        "createOrderPos": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new order position",
+            "description": "Creates an order position for an order.",
+            "callParams": {
+                "pathName": "/OrderPos",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createOrderPos.in.json",
+                "out": "./lib/schemas/createOrderPos.out.json"
+            }
+        },
+        "getContactFieldsById": {
+            "main": "./lib/actions/action.js",
+            "title": "Retrieve contact fields",
+            "description": "Retrieve all contact fields",
+            "callParams": {
+                "pathName": "/ContactCustomField/{contactCustomFieldId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getContactFieldsById.in.json",
+                "out": "./lib/schemas/getContactFieldsById.out.json"
+            }
+        },
+        "updateContactfield": {
+            "main": "./lib/actions/action.js",
+            "title": "Update a contact field",
+            "description": "Update a contact field",
+            "callParams": {
+                "pathName": "/ContactCustomField/{contactCustomFieldId}",
+                "method": "put",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateContactfield.in.json",
+                "out": "./lib/schemas/updateContactfield.out.json"
+            }
+        },
+        "updateOrder": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an existing order",
+            "description": "Update an order",
+            "callParams": {
+                "pathName": "/Order/{orderId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateOrder.in.json",
+                "out": "./lib/schemas/updateOrder.out.json"
+            }
+        },
+        "updateCheckAccountTransaction": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an existing check account transaction",
+            "description": "Update a check account transaction",
+            "callParams": {
+                "pathName": "/CheckAccountTransaction/{checkAccountTransactionId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateCheckAccountTransaction.in.json",
+                "out": "./lib/schemas/updateCheckAccountTransaction.out.json"
+            }
+        },
+        "deleteOrder": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes an order",
+            "callParams": {
+                "pathName": "/Order/{orderId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteOrder.in.json",
+                "out": "./lib/schemas/deleteOrder.out.json"
+            }
+        },
+        "deleteContactCustomFieldId": {
+            "main": "./lib/actions/action.js",
+            "title": "delete a contact field",
+            "callParams": {
+                "pathName": "/ContactCustomField/{contactCustomFieldId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteContactCustomFieldId.in.json",
+                "out": "./lib/schemas/deleteContactCustomFieldId.out.json"
+            }
+        },
+        "getOrderPositionById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find order position by ID",
+            "description": "Returns a single order position",
+            "callParams": {
+                "pathName": "/OrderPos/{orderPosId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getOrderPositionById.in.json",
+                "out": "./lib/schemas/getOrderPositionById.out.json"
+            }
+        },
+        "updateOrderPosition": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an existing order position",
+            "description": "Update an order position",
+            "callParams": {
+                "pathName": "/OrderPos/{orderPosId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateOrderPosition.in.json",
+                "out": "./lib/schemas/updateOrderPosition.out.json"
+            }
+        },
+        "getOrderById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find order by ID",
+            "description": "Returns a single order",
+            "callParams": {
+                "pathName": "/Order/{orderId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getOrderById.in.json",
+                "out": "./lib/schemas/getOrderById.out.json"
+            }
+        },
+        "updateOrderTemplate": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an order template",
+            "description": "Update an existing order template",
+            "callParams": {
+                "pathName": "/Order/{orderId}/changeParameter",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateOrderTemplate.in.json",
+                "out": "./lib/schemas/updateOrderTemplate.out.json"
+            }
+        },
+        "getTagById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find tag by ID",
+            "description": "Returns a single tag",
+            "callParams": {
+                "pathName": "/Tag/{tagId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getTagById.in.json",
+                "out": "./lib/schemas/getTagById.out.json"
+            }
+        },
+        "deleteAccountingContact": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes an accounting contact",
+            "callParams": {
+                "pathName": "/AccountingContact/{accountingContactId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteAccountingContact.in.json",
+                "out": "./lib/schemas/deleteAccountingContact.out.json"
+            }
+        },
+        "deleteTag": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes a tag",
+            "callParams": {
+                "pathName": "/Tag/{tagId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteTag.in.json",
+                "out": "./lib/schemas/deleteTag.out.json"
+            }
+        },
+        "contactAddressId": {
+            "main": "./lib/actions/action.js",
+            "title": "Find contact address by ID",
+            "description": "Returns a single contact address",
+            "callParams": {
+                "pathName": "/ContactAddress/{contactAddressId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/contactAddressId.in.json",
+                "out": "./lib/schemas/contactAddressId.out.json"
+            }
+        },
+        "updateTag": {
+            "main": "./lib/actions/action.js",
+            "title": "Update tag",
+            "description": "Update an existing tag",
+            "callParams": {
+                "pathName": "/Tag/{tagId}",
+                "method": "put",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateTag.in.json",
+                "out": "./lib/schemas/updateTag.out.json"
+            }
+        },
+        "getVoucherById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find voucher by ID",
+            "description": "Returns a single voucher",
+            "callParams": {
+                "pathName": "/Voucher/{voucherId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getVoucherById.in.json",
+                "out": "./lib/schemas/getVoucherById.out.json"
+            }
+        },
+        "getPartById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find part by ID",
+            "description": "Returns a single part",
+            "callParams": {
+                "pathName": "/Part/{partId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getPartById.in.json",
+                "out": "./lib/schemas/getPartById.out.json"
+            }
+        },
+        "updatePart": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an existing part",
+            "description": "Update a part",
+            "callParams": {
+                "pathName": "/Part/{partId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updatePart.in.json",
+                "out": "./lib/schemas/updatePart.out.json"
+            }
+        },
+        "createInvoiceByFactory": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new invoice",
+            "description": "This endpoint offers you the following functionality.\r\n     <ul>\r\n        <li>Create invoices together with positions and discounts</li>\r\n        <li>Delete positions while adding new ones</li>\r\n        <li>Delete or add discounts, or both at the same time</li>\r\n        <li>Automatically fill the address of the supplied contact into the invoice address</li>\r\n     </ul>\r\n     To make your own request sample slimmer, you can omit all parameters which are not required and nullable.\r\n     However, for a valid and logical bookkeeping document, you will also need some of them to ensure that all the necessary data is in the invoice.<br><br> The list of parameters starts with the invoice array.<br> This array contains all required attributes for a complete invoice.<br> Most of the attributes are covered in the invoice attribute list, there are only two parameters standing out, namely <b>mapAll</b> and <b>objectName</b>.<br> These are just needed for our system and you always need to provide them.<br><br> The list of parameters then continues with the invoice position array.<br> With this array you have the possibility to add multiple positions at once.<br> In the example it only contains one position, again together with the parameters <b>mapAll</b> and <b>objectName</b>, however, you can add more invoice positions by extending the array.<br> So if you wanted to add another position, you would add the same list of parameters with an incremented array index of \"1\" instead of \"0\".<br><br> The list ends with the four parameters invoicePosDelete, discountSave, discountDelete and takeDefaultAddress.<br> They only play a minor role if you only want to create an invoice but we will shortly explain what they can do.<br> With invoicePosDelete you have to option to delete invoice positions as this request can also be used to update invoices.<br> With discountSave you can add discounts to your invoice.<br> With discountDelete you can delete discounts from your invoice.<br> With takeDefaultAddress you can specify that the first address of the contact you are using for the invoice is taken for the invoice address attribute automatically, so you don't need to provide the address yourself.<br> If you want to know more about these parameters, for example if you want to use this request to update invoices, feel free to contact our support.<br><br> Finally, after covering all parameters, they only important information left, is that the order of the last four attributes always needs to be kept.<br> You will also always need to provide all of them, as otherwise the request won't work properly.",
+            "callParams": {
+                "pathName": "/Invoice/Factory/saveInvoice",
+                "method": "post",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createInvoiceByFactory.in.json",
+                "out": "./lib/schemas/createInvoiceByFactory.out.json"
+            }
+        },
+        "updateVoucher": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an existing voucher",
+            "description": "Update a voucher",
+            "callParams": {
+                "pathName": "/Voucher/{voucherId}",
+                "method": "put",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateVoucher.in.json",
+                "out": "./lib/schemas/updateVoucher.out.json"
+            }
+        },
+        "createContact": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new contact",
+            "description": "Creates a new contact.<br>\r\n     For adding addresses and communication ways, you will need to use the ContactAddress and CommunicationWay endpoints.",
+            "callParams": {
+                "pathName": "/Contact",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createContact.in.json",
+                "out": "./lib/schemas/createContact.out.json"
+            }
+        },
+        "invoiceRender": {
+            "main": "./lib/actions/action.js",
+            "title": "Render the pdf document of an invoice",
+            "description": "Using this endpoint you can render the pdf document of an invoice.<br>\r\n     Use cases for this are the retrieval of the pdf location or the forceful re-render of a already sent invoice.<br>\r\n     Please be aware that changing an invoice after it has been sent to a customer is not an allowed bookkeeping process.",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/render",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/invoiceRender.in.json",
+                "out": "./lib/schemas/invoiceRender.out.json"
+            }
+        },
+        "updateCheckAccount": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an existing check account",
+            "description": "Update a check account",
+            "callParams": {
+                "pathName": "/CheckAccount/{checkAccountId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateCheckAccount.in.json",
+                "out": "./lib/schemas/updateCheckAccount.out.json"
+            }
+        },
+        "deleteCommunicationWay": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes a communication way",
+            "callParams": {
+                "pathName": "/CommunicationWay/{communicationWayId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteCommunicationWay.in.json",
+                "out": "./lib/schemas/deleteCommunicationWay.out.json"
+            }
+        },
+        "bookCreditNote": {
+            "main": "./lib/actions/action.js",
+            "title": "Book a credit note",
+            "description": "Booking the credit note with a transaction is probably the most important part in the bookkeeping process.<br> There are several ways on correctly booking a credit note, all by using the same endpoint.<br> Conveniently, the booking process is exactly the same as the process for invoices and vouchers.<br> For this reason, you can have a look at it in the <a href='https://api.sevdesk.de/#section/How-to-book-an-invoice'>invoice chapter</a> and all you need to do is to change \"Invoice\" into \"CreditNote\" in the URL.",
+            "callParams": {
+                "pathName": "/CreditNote/{creditNoteId}/bookAmount",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/bookCreditNote.in.json",
+                "out": "./lib/schemas/bookCreditNote.out.json"
+            }
+        },
+        "orderSendBy": {
+            "main": "./lib/actions/action.js",
+            "title": "Mark order as sent",
+            "description": "Marks an order as sent by a chosen send type.",
+            "callParams": {
+                "pathName": "/Order/{orderId}/sendBy",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/orderSendBy.in.json",
+                "out": "./lib/schemas/orderSendBy.out.json"
+            }
+        },
+        "getCommunicationWayById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find communication way by ID",
+            "description": "Returns a single communication way",
+            "callParams": {
+                "pathName": "/CommunicationWay/{communicationWayId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getCommunicationWayById.in.json",
+                "out": "./lib/schemas/getCommunicationWayById.out.json"
+            }
+        },
+        "UpdateCommunicationWay": {
+            "main": "./lib/actions/action.js",
+            "title": "Update a existing communication way",
+            "description": "Update a communication way",
+            "callParams": {
+                "pathName": "/CommunicationWay/{communicationWayId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/UpdateCommunicationWay.in.json",
+                "out": "./lib/schemas/UpdateCommunicationWay.out.json"
+            }
+        },
+        "createContactField": {
+            "main": "./lib/actions/action.js",
+            "title": "Create contact field",
+            "description": "Create contact field",
+            "callParams": {
+                "pathName": "/ContactCustomField",
+                "method": "post",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createContactField.in.json",
+                "out": "./lib/schemas/createContactField.out.json"
+            }
+        },
+        "updatecreditNote": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an existing creditNote",
+            "description": "Update a creditNote",
+            "callParams": {
+                "pathName": "/creditNote/{creditNoteId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updatecreditNote.in.json",
+                "out": "./lib/schemas/updatecreditNote.out.json"
+            }
+        },
+        "invoiceSendBy": {
+            "main": "./lib/actions/action.js",
+            "title": "Mark invoice as sent",
+            "description": "Marks an invoice as sent by a chosen send type.",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/sendBy",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/invoiceSendBy.in.json",
+                "out": "./lib/schemas/invoiceSendBy.out.json"
+            }
+        },
+        "getCheckAccountById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find check account by ID",
+            "description": "Retrieve an existing check account",
+            "callParams": {
+                "pathName": "/CheckAccount/{checkAccountId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getCheckAccountById.in.json",
+                "out": "./lib/schemas/getCheckAccountById.out.json"
+            }
+        },
+        "creditNoteSendBy": {
+            "main": "./lib/actions/action.js",
+            "title": "Mark credit note as sent",
+            "description": "Marks an credit note as sent by a chosen send type.",
+            "callParams": {
+                "pathName": "/CreditNote/{creditNoteId}/sendBy",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/creditNoteSendBy.in.json",
+                "out": "./lib/schemas/creditNoteSendBy.out.json"
+            }
+        },
+        "createCheckAccount": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new check account",
+            "description": "Creates a new banking account on which transactions can be created.",
+            "callParams": {
+                "pathName": "/CheckAccount",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createCheckAccount.in.json",
+                "out": "./lib/schemas/createCheckAccount.out.json"
+            }
+        },
+        "createInvoiceReminder": {
+            "main": "./lib/actions/action.js",
+            "title": "Create invoice reminder",
+            "description": "Create an reminder from an invoice",
+            "callParams": {
+                "pathName": "/Invoice/Factory/createInvoiceReminder",
+                "method": "post",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createInvoiceReminder.in.json",
+                "out": "./lib/schemas/createInvoiceReminder.out.json"
+            }
+        },
+        "createcreditNote": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new creditNote",
+            "description": "The list of parameters starts with the credit note array.<br> This array contains all required attributes for a complete credit note.<br> Most of the attributes are covered in the credit note attribute list, there are only two parameters standing out, namely <b>mapAll</b> and <b>objectName</b>.<br> These are just needed for our system and you always need to provide them.<br> The list of parameters then continues with the credit note position array.<br> With this array you have the possibility to add multiple positions at once.<br> In the example it only contains one position, again together with the parameters <b>mapAll</b> and <b>objectName</b>, however, you can add more credit note positions by extending the array.<br> So if you wanted to add another position, you would add the same list of parameters with an incremented array index of \"1\" instead of \"0\".<br><br> The list ends with the five parameters creditNotePosDelete, discountSave, discountDelete, takeDefaultAddress and forCashRegister.<br> They only play a minor role if you only want to create a credit note but we will shortly explain what they can do.<br> With creditNotePosDelete you have to option to delete credit note positions as this request can also be used to update credit notes.<br> Both discount parameters are deprecated and have no use for credit notes, however they need to be provided in case you want to use the following two parameters.<br> With takeDefaultAddress you can specify that the first address of the contact you are using for the credit note is taken for the credit note address attribute automatically, so you don't need to provide the address yourself.<br> Finally, the forCashRegister parameter needs to be set to <b>true</b> if your credit note is to be booked on the cash register.<br> If you want to know more about these parameters, for example if you want to use this request to update credit notes, feel free to contact our support.<br> Finally, after covering all parameters, they only important information left, is that the order of the last five attributes always needs to be kept.<br> You will also always need to provide all of them, as otherwise the request won't work properly.",
+            "callParams": {
+                "pathName": "/CreditNote/Factory/saveCreditNote",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createcreditNote.in.json",
+                "out": "./lib/schemas/createcreditNote.out.json"
+            }
+        },
+        "createTransaction": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new transaction",
+            "description": "Creates a new transaction on a check account.",
+            "callParams": {
+                "pathName": "/CheckAccountTransaction",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createTransaction.in.json",
+                "out": "./lib/schemas/createTransaction.out.json"
+            }
+        },
+        "sendCreditNoteViaEMail": {
+            "main": "./lib/actions/action.js",
+            "title": "Send credit note via email",
+            "description": "This endpoint sends the specified credit note to a customer via email.<br>\r\n    This will automatically mark the credit note as sent.<br>\r\n    Please note, that in production an credit note is not allowed to be changed after this happened!",
+            "callParams": {
+                "pathName": "/CreditNote/{creditNoteId}/sendViaEmail",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/sendCreditNoteViaEMail.in.json",
+                "out": "./lib/schemas/sendCreditNoteViaEMail.out.json"
+            }
+        },
+        "deleteOrderPos": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes an order Position",
+            "callParams": {
+                "pathName": "/OrderPos/{orderPosId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteOrderPos.in.json",
+                "out": "./lib/schemas/deleteOrderPos.out.json"
+            }
+        },
+        "getContactById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find contact by ID",
+            "description": "Returns a single contact",
+            "callParams": {
+                "pathName": "/Contact/{contactId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getContactById.in.json",
+                "out": "./lib/schemas/getContactById.out.json"
+            }
+        },
+        "updateContact": {
+            "main": "./lib/actions/action.js",
+            "title": "Update a existing contact",
+            "description": "Update a contact",
+            "callParams": {
+                "pathName": "/Contact/{contactId}",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateContact.in.json",
+                "out": "./lib/schemas/updateContact.out.json"
+            }
+        },
+        "getcreditNoteById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find creditNote by ID",
+            "description": "Returns a single creditNote",
+            "callParams": {
+                "pathName": "/creditNote/{creditNoteId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getcreditNoteById.in.json",
+                "out": "./lib/schemas/getcreditNoteById.out.json"
+            }
+        },
+        "deleteContact": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes a contact",
+            "callParams": {
+                "pathName": "/Contact/{contactId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteContact.in.json",
+                "out": "./lib/schemas/deleteContact.out.json"
+            }
+        },
+        "voucherUploadFile": {
+            "main": "./lib/actions/action.js",
+            "title": "Upload voucher file",
+            "description": "To attach a document to a voucher, you will need to upload it first for later use.<br> To do this, you can use this request.<br> When you successfully uploaded the file, you will get a sevDesk internal filename in the response.<br> The filename will be a hash generated from your uploaded file. You will need it in the next request!<br> After you got the just mentioned filename, you can enter it as a value for the filename parameter of the saveVoucher request.<br> If you provided all necessary parameters and kept all of them in the right order, the file will be attached to your voucher.",
+            "callParams": {
+                "pathName": "/Voucher/Factory/uploadTempFile",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/voucherUploadFile.in.json",
+                "out": "./lib/schemas/voucherUploadFile.out.json"
+            }
+        },
+        "deleteCheckAccount": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes a check account",
+            "callParams": {
+                "pathName": "/CheckAccount/{checkAccountId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteCheckAccount.in.json",
+                "out": "./lib/schemas/deleteCheckAccount.out.json"
+            }
+        },
+        "createOrder": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new order",
+            "description": "Creates an order to which positions can be added later.",
+            "callParams": {
+                "pathName": "/Order",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createOrder.in.json",
+                "out": "./lib/schemas/createOrder.out.json"
+            }
+        },
+        "deletecreditNote": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes an creditNote",
+            "callParams": {
+                "pathName": "/creditNote/{creditNoteId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deletecreditNote.in.json",
+                "out": "./lib/schemas/deletecreditNote.out.json"
+            }
+        },
+        "getContactFieldSettingById": {
+            "main": "./lib/actions/action.js",
+            "title": "Find contact field setting by ID",
+            "description": "Returns a single contact field setting",
+            "callParams": {
+                "pathName": "/ContactCustomFieldSetting/{contactCustomFieldSettingId}",
+                "method": "get"
+            },
+            "metadata": {
+                "in": "./lib/schemas/getContactFieldSettingById.in.json",
+                "out": "./lib/schemas/getContactFieldSettingById.out.json"
+            }
+        },
+        "createContractNoteFromOrder": {
+            "main": "./lib/actions/action.js",
+            "title": "Create contract note from order",
+            "description": "Create contract note from order",
+            "callParams": {
+                "pathName": "/Order/Factory/createContractNoteFromOrder",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createContractNoteFromOrder.in.json",
+                "out": "./lib/schemas/createContractNoteFromOrder.out.json"
+            }
+        },
+        "updateInvoiceTemplate": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an invoice template",
+            "description": "Update an existing invoice template",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/changeParameter",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateInvoiceTemplate.in.json",
+                "out": "./lib/schemas/updateInvoiceTemplate.out.json"
+            }
+        },
+        "createCommunicationWay": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new contact communication way",
+            "description": "Creates a new contact communication way.",
+            "callParams": {
+                "pathName": "/CommunicationWay",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createCommunicationWay.in.json",
+                "out": "./lib/schemas/createCommunicationWay.out.json"
+            }
+        },
+        "createInvoiceFromOrder": {
+            "main": "./lib/actions/action.js",
+            "title": "Create invoice from order",
+            "description": "Create an invoice from an order",
+            "callParams": {
+                "pathName": "/Invoice/Factory/createInvoiceFromOrder",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createInvoiceFromOrder.in.json",
+                "out": "./lib/schemas/createInvoiceFromOrder.out.json"
+            }
+        },
+        "updateContactFieldSetting": {
+            "main": "./lib/actions/action.js",
+            "title": "Update contact field setting",
+            "description": "Update an existing contact field  setting",
+            "callParams": {
+                "pathName": "/ContactCustomFieldSetting/{contactCustomFieldSettingId}",
+                "method": "put",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateContactFieldSetting.in.json",
+                "out": "./lib/schemas/updateContactFieldSetting.out.json"
+            }
+        },
+        "updateCreditNoteTemplate": {
+            "main": "./lib/actions/action.js",
+            "title": "Update an of credit note template",
+            "description": "Update an existing of credit note template",
+            "callParams": {
+                "pathName": "/CreditNote/{creditNoteId}/changeParameter",
+                "method": "put",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateCreditNoteTemplate.in.json",
+                "out": "./lib/schemas/updateCreditNoteTemplate.out.json"
+            }
+        },
+        "createAccountingContact": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new accounting contact",
+            "description": "Creates a new accounting contact.",
+            "callParams": {
+                "pathName": "/AccountingContact",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createAccountingContact.in.json",
+                "out": "./lib/schemas/createAccountingContact.out.json"
+            }
+        },
+        "deleteContactFieldSetting": {
+            "main": "./lib/actions/action.js",
+            "title": "Deletes a contact field setting",
+            "callParams": {
+                "pathName": "/ContactCustomFieldSetting/{contactCustomFieldSettingId}",
+                "method": "delete"
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteContactFieldSetting.in.json",
+                "out": "./lib/schemas/deleteContactFieldSetting.out.json"
+            }
+        },
+        "cancelInvoice": {
+            "main": "./lib/actions/action.js",
+            "title": "Cancel an invoice / Create cancellation invoice",
+            "description": "This endpoint will cancel the specified invoice therefor creating a cancellation invoice.<br>\r\n     The cancellation invoice will be automatically paid and the source invoices status will change to 'cancelled'.",
+            "callParams": {
+                "pathName": "/Invoice/{invoiceId}/cancelInvoice",
+                "method": "post"
+            },
+            "metadata": {
+                "in": "./lib/schemas/cancelInvoice.in.json",
+                "out": "./lib/schemas/cancelInvoice.out.json"
+            }
+        },
+        "createTag": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new tag",
+            "description": "Create a new tag",
+            "callParams": {
+                "pathName": "/Tag/Factory/create",
+                "method": "post",
+                "requestContentType": "application/json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createTag.in.json",
+                "out": "./lib/schemas/createTag.out.json"
+            }
+        },
+        "createContactAddress": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new contact address",
+            "description": "Creates a new contact address.",
+            "callParams": {
+                "pathName": "/ContactAddress",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createContactAddress.in.json",
+                "out": "./lib/schemas/createContactAddress.out.json"
+            }
+        },
+        "sendorderViaEMail": {
+            "main": "./lib/actions/action.js",
+            "title": "Send order via email",
+            "description": "This endpoint sends the specified order to a customer via email.<br>\r\n    This will automatically mark the order as sent.<br>\r\n    Please note, that in production an order is not allowed to be changed after this happened!",
+            "callParams": {
+                "pathName": "/Order/{orderId}/sendViaEmail",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/sendorderViaEMail.in.json",
+                "out": "./lib/schemas/sendorderViaEMail.out.json"
+            }
+        },
+        "createPart": {
+            "main": "./lib/actions/action.js",
+            "title": "Create a new part",
+            "description": "Creates a part in your sevDesk inventory.",
+            "callParams": {
+                "pathName": "/Part",
+                "method": "post",
+                "requestContentType": "json"
+            },
+            "metadata": {
+                "in": "./lib/schemas/createPart.in.json",
+                "out": "./lib/schemas/createPart.out.json"
+            }
+        }
+    }
+}

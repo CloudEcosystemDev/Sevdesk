@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+        "tagId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "properties": {
+                "name": {
+                    "description": "The name of the tag u want to update",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

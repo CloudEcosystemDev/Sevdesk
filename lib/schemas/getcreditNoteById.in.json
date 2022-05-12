@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "creditNoteId": {
+            "required": true,
+            "type": "integer"
+        }
+    }
+}

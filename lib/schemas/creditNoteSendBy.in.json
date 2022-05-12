@@ -1,0 +1,34 @@
+{
+    "type": "object",
+    "properties": {
+        "creditNoteId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "required": [
+                "sendType",
+                "sendDraft"
+            ],
+            "properties": {
+                "sendType": {
+                    "description": "Specifies the way in which the credit note was sent to the customer.<br>\r\n     Accepts 'VPR' (print), 'VP' (postal), 'VM' (mail) and 'VPDF' (downloaded pfd).",
+                    "type": "string",
+                    "enum": [
+                        "VPR",
+                        "VP",
+                        "VM",
+                        "VPDF"
+                    ],
+                    "example": "VPDF"
+                },
+                "sendDraft": {
+                    "description": "Specify if the should be enshrined after marking it as sent.",
+                    "type": "boolean",
+                    "example": false
+                }
+            },
+            "type": "object"
+        }
+    }
+}

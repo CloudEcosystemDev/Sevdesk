@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "creditNote[id]": {
+            "required": false,
+            "type": "integer"
+        },
+        "creditNote[objectName]": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "type": "object",
+    "properties": {
+        "orderId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "title": "Layout model",
+            "description": "Layout model",
+            "required": [
+                "key",
+                "value"
+            ],
+            "properties": {
+                "key": {
+                    "description": "the type to be changed",
+                    "type": "string",
+                    "enum": [
+                        "language",
+                        "template",
+                        "letterpaper",
+                        "payPal"
+                    ],
+                    "example": "template",
+                    "nullable": false
+                },
+                "value": {
+                    "description": "the id/value of the template/letterpaper/language/payPal.",
+                    "type": "string",
+                    "example": "573ef2706bd2d50366786471"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

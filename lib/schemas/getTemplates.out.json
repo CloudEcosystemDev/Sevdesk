@@ -1,0 +1,43 @@
+{
+    "properties": {
+        "result": {
+            "type": "string",
+            "example": "1"
+        },
+        "templates": {
+            "type": "array",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "57986aee6bd2d53306068da1"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "SEVDOC_TEMPLATE_STANDARD"
+                },
+                "translationCode": {
+                    "type": "string",
+                    "example": "SEVDOC_TEMPLATE_STANDARD"
+                },
+                "sevClient": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "Invoice"
+                },
+                "html": {
+                    "type": "string"
+                },
+                "default": {
+                    "type": "integer"
+                },
+                "premium": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        }
+    }
+}

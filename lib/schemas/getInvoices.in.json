@@ -1,0 +1,34 @@
+{
+    "type": "object",
+    "properties": {
+        "status": {
+            "required": false,
+            "type": "number",
+            "enum": [
+                100,
+                200,
+                1000
+            ]
+        },
+        "invoiceNumber": {
+            "required": false,
+            "type": "string"
+        },
+        "startDate": {
+            "required": false,
+            "type": "integer"
+        },
+        "endDate": {
+            "required": false,
+            "type": "integer"
+        },
+        "contact[id]": {
+            "required": false,
+            "type": "integer"
+        },
+        "contact[objectName]": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

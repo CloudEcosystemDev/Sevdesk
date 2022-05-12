@@ -1,0 +1,207 @@
+{
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "title": "Invoice position model",
+                "description": "Invoice position model",
+                "properties": {
+                    "id": {
+                        "description": "The invoice position id",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "objectName": {
+                        "description": "The invoice position object name",
+                        "type": "string",
+                        "default": "InvoicePos",
+                        "readOnly": true
+                    },
+                    "create": {
+                        "description": "Date of invoice position creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.2020",
+                        "readOnly": true
+                    },
+                    "update": {
+                        "description": "Date of last invoice position update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "01.01.2020",
+                        "readOnly": true
+                    },
+                    "invoice": {
+                        "description": "The invoice to which the position belongs.",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the invoice",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Invoice'",
+                                "type": "string",
+                                "default": "Invoice"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "part": {
+                        "description": "Part from your inventory which is used in the position.",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the part",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Part'",
+                                "type": "string",
+                                "default": "Part"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "quantity": {
+                        "description": "Quantity of the article/part",
+                        "type": "string",
+                        "example": "1",
+                        "readOnly": true
+                    },
+                    "price": {
+                        "description": "Price of the article/part. Is either gross or net, depending on the sevDesk account setting.",
+                        "type": "string",
+                        "example": "100",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "description": "Name of the article/part.",
+                        "type": "string",
+                        "example": "Dragonglass",
+                        "readOnly": true
+                    },
+                    "unity": {
+                        "description": "The unit in which the positions part is measured",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the unit",
+                                "type": "string",
+                                "example": "1"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'Unity'",
+                                "type": "string",
+                                "default": "Unity"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "sevClient": {
+                        "description": "Client to which invoice position belongs. Will be filled automatically",
+                        "required": [
+                            "id",
+                            "objectName"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Unique identifier of the client",
+                                "type": "string",
+                                "example": "0"
+                            },
+                            "objectName": {
+                                "description": "Model name, which is 'SevClient'",
+                                "type": "string",
+                                "default": "SevClient"
+                            }
+                        },
+                        "type": "object",
+                        "readOnly": true
+                    },
+                    "positionNumber": {
+                        "description": "Position number of your position. Can be used to order multiple positions.",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "text": {
+                        "description": "A text describing your position.",
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "discount": {
+                        "description": "An optional discount of the position.",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "taxRate": {
+                        "description": "Tax rate of the position.",
+                        "type": "string",
+                        "example": "19",
+                        "readOnly": true
+                    },
+                    "sumDiscount": {
+                        "description": "Discount sum of the position",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumNetAccounting": {
+                        "description": "Net accounting sum of the position",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumTaxAccounting": {
+                        "description": "Tax accounting sum of the position",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "sumGrossAccounting": {
+                        "description": "Gross accounting sum of the position",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "priceNet": {
+                        "description": "Net price of the part",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    },
+                    "priceGross": {
+                        "description": "Gross price of the part",
+                        "type": "string",
+                        "example": "100",
+                        "readOnly": true
+                    },
+                    "priceTax": {
+                        "description": "Tax on the price of the part",
+                        "type": "string",
+                        "example": "0",
+                        "readOnly": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "type": "object"
+}
